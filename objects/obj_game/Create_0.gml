@@ -1,4 +1,4 @@
-score = 800;
+score = 0;
 lives = 3;
 
 paused = false;
