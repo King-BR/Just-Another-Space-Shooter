@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>GameMaker Tutorial</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" title="style" charset="UTF-8"/>
+		<script type="text/javascript">
+			var changePage = function(){
+				var newPage = document.getElementById("page-select");
+				//alert(newPage.value);
+				window.location.replace(newPage.value);
+				}
+		</script>
+	</head>
+<body>
+
+<h2>Tutorial - Space Rocks</h2>
+	<div class="head">
+		<select id="page-select" onChange="changePage()">
+			<optgroup label="Chapter 2 - Attacking and Collisions">
+				<option style="font-weight:bold;" value="page06.html">Clean Up</option>
+				<option value="page01.html">Collision Masks</option>
+				<option value="page02.html">Collisions</option>
+				<option value="page03.html">Shooting</option>
+				<option value="page04.html">More Collisions</option>
+				<option value="page05.html">Debris</option>
+			</optgroup>
+				<option style="font-weight:bold;" value="../index.html">Introduction</option>
+				<option style="font-weight:bold;" value="../Chapter3/page01.html">Chapter 3 - Score, Lives and Effects</option>
+				<option style="font-weight:bold;" value="../Chapter4/page01.html">Chapter 4 - Sound Effects and Polish</option>
+				<option style="font-weight:bold;" value="../Chapter1/page01.html">Chapter 1 - Getting Started</option>
+		  </optgroup>
+		</select>
+	</div>
+<!--<h5 style="color: #ffffff; text-align:left; font-size:1em;">Starting A New Project</h5>-->
+<div class="body-scroll">
+
+<p>
+Before we finish this section of the tutorial, we need to do some cleaning up. In programming, there are many ways you can leave things lying around that will "clog-up" the computers memory and cause performance issues or worse. In general this kind of error is called a <i>memory leak</i>, and it's something you want to avoid at all costs in your own proects, meaning that you have to be careful to make sure that your game is programmed efficiently, and you don't leave things when no longer needed, but instead destroy them in some way. 
+
+<p>
+In our game as it stands, we have a memory leak! Our room is only 500x500px, and we wrap our player and our asteroid instances if they go outside that area. But what about our bullets? They fly out the room space... and then what? Well, then nothing! Once outside the room, they are just taking up memory space without actually performing any useful task in our game, so we want to destroy them when they can no longer be seen.
+
+<p>
+We want to add an <b>Outside Room</b> event to our bullet object "<tt>obj_bullet</tt>", so do that now:
+
+<p>
+<img class="center" src="../Images/C3_06_01_OutsideRoomEvent.png" alt="The Outside Room Event">
+
+<p>
+This event will only be triggered when the instance <tt>x</tt>/<tt>y</tt> position goes outside the room edges. In this event we'll simply add:
+
+<p class="code">
+instance_destroy();<br>
+</p>
+
+<p>
+That's all we need to tell the instance that if it leaves the room, it should destroy itself. Memory leak averted!
+
+<p>
+Click the "Next" button to continue on to the next part - <b>Score, Lives and Effects</b>...
+
+
+<p>
+<br>
+</p>
+<p>
+  </div>
+
+  <div class="footer">
+    <div class="buttons">
+		<div class="clear">
+			<div style="float:left">
+				<a href="page05.html"  class="prev">
+				<div id="button-prev"></div>
+				</a>
+			</div>
+			<div style="float:right">
+				<a href="../Chapter3/page01.html" class="next">
+					<div id="button-next"></div>
+				</a>
+			</div>
+		</div>
+    </div>
+    <h5>&copy; Copyright YoYo Games Ltd. 2019 All Rights Reserved</h5>
+  </div>
+
+</body>
+</html>

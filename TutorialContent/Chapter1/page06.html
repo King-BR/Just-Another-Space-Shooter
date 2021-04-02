@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>GameMaker Tutorial</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" title="style" charset="UTF-8"/>
+		<script type="text/javascript">
+			var changePage = function(){
+				var newPage = document.getElementById("page-select");
+				//alert(newPage.value);
+				window.location.replace(newPage.value);
+				}
+		</script>
+	</head>
+<body>
+
+<h2>Tutorial - Space Rocks</h2>
+	<div class="head">
+		<select id="page-select" onChange="changePage()">
+			<optgroup label="Chapter 1 - Setup And Moving">
+				<option style="font-weight:bold;" value="page06.html">Moving</option>
+				<option value="page07.html">Wrap The Room</option>
+				<option value="page08.html">Asteroids</option>
+				<option value="page01.html">What We Need</option>
+				<option value="page02.html">Making Sprites</option>
+				<option value="page03.html">Making Objects</option>
+				<option value="page04.html">Editing Rooms</option>
+				<option value="page05.html">Game Logic</option>
+			</optgroup>
+				<option style="font-weight:bold;" value="../index.html">Introduction</option>
+				<option style="font-weight:bold;" value="../Chapter2/page01.html">Chapter 2 - Attacking and Collisions</option>
+				<option style="font-weight:bold;" value="../Chapter3/page01.html">Chapter 3 - Score, Lives and Effects</option>
+				<option style="font-weight:bold;" value="../Chapter4/page01.html">Chapter 4 - Sound Effects and Polish</option>
+		  </optgroup>
+		</select>
+	</div>
+<!--<h5 style="color: #ffffff; text-align:left; font-size:1em;">Starting A New Project</h5>-->
+<div class="body-scroll">
+
+<p>
+Our player ship can turn left and right, but it's not able to move yet, let's fix that now! To start with, go back to the object <tt>obj_ship</tt>, and in the <b>Step Event</b> add the following code, after the code we have already for rotating the <tt>image_angle</tt>:
+
+<p class="code">
+if (keyboard_check(vk_up))<br>
+{<br>
+motion_add(image_angle, 0.05);<br>
+}<br>
+</p>
+
+<p>
+We already know what the <tt>keyboard_check()</tt> function does, but what about <a href="gms2tutorials:///ShowHelp?tag=motion_add"><tt>motion_add()</tt></a>? Well, to explain this you have to understand that there are two different types of movement available to you when using <i>GameMaker Studio 2</i>.
+
+<p>
+The first type of movement is to simply set the <a href="gms2tutorials:///ShowHelp?tag=x"><tt>x</tt></a>/<a href="gms2tutorials:///ShowHelp?tag=y"><tt>y</tt></a> instance variables for the instance in the room. You can do this through code, for example, the following code would move the instance to the right along the X axis by 5 pixels each step:
+
+<p class="code">
+x = x + 5;<br>
+</p>
+
+<p>
+Subtracting 5 each step would move the instance left, and the same goes for the Y axis, where adding to <tt>y</tt> will move the instance down and subtracting will move the instance up. To see this in action, simply go into the room editor, double click <img style="vertical-align:middle" src="../Icon_LMB.png"> on the "<tt>obj_ship</tt>" instance, and then change the x/y values, or click on it and drag it around to see them change:
+
+<p>
+<img class="center" src="../Images/C2_06_01_Coords.gif" alt="X/Y Coordinates">
+
+<p>
+So, by changing the <tt>x</tt> and <tt>y</tt> values of the instance variables we can move the ship around.
+
+<p>
+The other method of movement is to set the <a href="gms2tutorials:///ShowHelp?tag=speed"><tt>speed</tt></a> and <a href="gms2tutorials:///ShowHelp?tag=direction"><tt>direction</tt></a>. The "speed" of an instance in <i>GameMaker Studio 2</i> is the number of pixels the instance should move each step of the game, so setting <tt>speed = 2;</tt> means that the instance will move 2 pixels every step of the game. However, speed means nothing without a direction, and so we also have the <tt>direction</tt> variable to set the direction of movement when speed is anything other than 0. Together these create a <i>vector</i>.
+
+<p>
+Now, explaining vector maths is outside of the scope of this tutorial, but luckily there's no need as <i>GameMaker Studio 2</i> has functions that will help you , without having any advanced mathematical knowledge. In this case it's the <a href="gms2tutorials:///ShowHelp?tag=motion_add"><tt>motion_add()</tt></a> function. This function takes an angle of direction, and then adds a certain amount of momentum to the speed of the instance in that direction - in the above code we are using the current <tt>image_angle</tt> to get the direction of motion and setting the amount of momentum to add as 0.05 pixels per step. This might seem a small amount, but adding to the ship momentum is a <i>cumulative</i> effect, so each step that we add this value, the ship will get faster and faster (in the same direction). We use this method over setting the <tt>x</tt>/<tt>y</tt> position directly, as it enables us to easily create a "floaty" feel for the movement, perfect for a game set in space!
+
+<div class="note">
+	<b>NOTE</b>: The values given here for adding to the <tt>image_angle</tt> or momentum, are just for orientation, but you can (and should!) play around with the values to see what happens and to maybe find something that you feel more appropriate.
+</div>
+
+<p>
+With that done, you can test the game again, and you should be able to move the ship around by tapping or holding the Up Arrow key, and if you rotate then the direction of movement should change over time too.
+
+<p>
+Click on the "Next" button to continue...
+
+
+<p>
+<br>
+</p>
+<p>
+  </div>
+
+  <div class="footer">
+    <div class="buttons">
+		<div class="clear">
+			<div style="float:left">
+				<a href="page05.html"  class="prev">
+				<div id="button-prev"></div>
+				</a>
+			</div>
+			<div style="float:right">
+				<a href="page07.html" class="next">
+					<div id="button-next"></div>
+				</a>
+			</div>
+		</div>
+    </div>
+    <h5>&copy; Copyright YoYo Games Ltd. 2019 All Rights Reserved</h5>
+  </div>
+
+</body>
+</html>

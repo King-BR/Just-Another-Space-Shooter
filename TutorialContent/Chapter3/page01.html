@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>GameMaker Tutorial</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" title="style" charset="UTF-8"/>
+		<script type="text/javascript">
+			var changePage = function(){
+				var newPage = document.getElementById("page-select");
+				//alert(newPage.value);
+				window.location.replace(newPage.value);
+				}
+		</script>
+	</head>
+<body>
+
+<h2>Tutorial - Space Rocks</h2>
+	<div class="head">
+		<select id="page-select" onChange="changePage()">
+			<optgroup label="Chapter 3 - Score, Lives and Effects">
+				<option style="font-weight:bold;" value="page01.html">Controller Objects</option>
+				<option value="page02.html">Fonts</option>
+				<option value="page03.html">Setting Score and Lives</option>
+				<option value="page04.html">Rooms</option>
+				<option value="page05.html">Room Text</option>
+				<option value="page06.html">Game Control</option>
+			</optgroup>
+				<option style="font-weight:bold;" value="../index.html">Introduction</option>
+				<option style="font-weight:bold;" value="../Chapter4/page01.html">Chapter 4 - Sound Effects and Polish</option>
+				<option style="font-weight:bold;" value="../Chapter1/page01.html">Chapter 1 - Getting Started</option>
+				<option style="font-weight:bold;" value="../Chapter2/page01.html">Chapter 2 - Attacking and Collisions</option>
+		  </optgroup>
+		</select>
+	</div>
+<!--<h5 style="color: #ffffff; text-align:left; font-size:1em;">Starting A New Project</h5>-->
+<div class="body-scroll">
+
+<p>
+In this chapter we're going to be creating lives and score to make our game more interesting, as well as a few more rooms to deal with different game "states".
+
+<div class="note">
+	<b>NOTE:</b> If you have problems seeing the images in this tutorial, you can expand the tutorial window by dragging the edge into the IDE.<br><br>
+	<b>NOTE:</b> If you close the accompanying video then you can get it back by clicking <a href='gms2tutorials:///SetVideoPosition?index=3'>here</a>
+</div>
+
+<p>
+To get started we're going to make a new object. This will be a "controller" object, which means that we won't be assigning it a sprite as it's going to sit in a room and deal with things "behind the scenes". So, make a new object now and call it "<tt>obj_game</tt>" and give it a <b>Create Event</b>:
+
+<p>
+<img class="center" src="../Images/C4_01_01_GameObject.png" alt="The Game Controller Object">
+
+<p>
+We want this object to track the player's score and lives values, so we'll just use the built-in <b>global</b> variables <a href="gms2tutorials:///ShowHelp?keyword=score"><tt>score</tt></a> and <a href="gms2tutorials:///ShowHelp?keyword=lives"><tt>lives</tt></a>. A global variable is basically a variable that has no "owner". It belongs to the entire game, and not one particular object, and can be accessed and changed by everything at anytime.
+
+<p>
+Add these lines into the Create Event:
+
+<p class="code">
+score = 0;<br>
+lives = 3;<br>
+</p>
+
+<p>
+We want to show these values to the player too, so for that we'll add in a <b>Draw Event</b>:
+
+<p>
+<img class="center" src="../Images/C4_01_02_DrawEvent.png" alt="The Draw Event">
+
+<p>
+As the name implies, this event will draw things to the screen. Like the Step Event, it will run every game frame, otherwise the things you drew would only be visible for one frame and then disappear. We want to use it to display the player score and lives, so we'll use the <a href="gms2tutorials:///ShowHelp?tag=draw_text"><tt>draw_text()</tt></a> function for this. Add the following code now:
+
+<p class="code">
+draw_text(20, 20, "SCORE: " + string(score));<br>
+draw_text(20, 40, "LIVES: " + string(lives));<br>
+</p>
+
+<p>
+You'll notice we call the function <a href="gms2tutorials:///ShowHelp?tag=string"><tt>string()</tt></a> on the global variables. This is because you can't add two values that are of different <a href="gms2tutorials:///ShowHelp?keyword=data_type">data types</a>, and in this case we have a <i>string</i> "SCORE:" and a <i>number</i> (the value of the <tt>score</tt> global variable). To avoid this issue, we use the <tt>string()</tt> function to turn the value of <tt>score</tt> into a string data type - so if the score was 300, <tt>string(score)</tt> would return "300", and that can then be added onto the "SCORE: " string (adding strings like this, concatenates them).
+
+<p>
+We can now add this controller object into the room, so open up the room "<tt>rm_game</tt>" and drag an instance of this object up to the (0,0) position in the room (you'll see it is shown with a (?) symbol in the room editor - this is because we haven't assigned it a sprite):
+
+<p>
+<img class="center" src="../Images/C4_01_03_AddController.gif" alt="Add The Controller Object">
+
+<p>
+Press play now and test the game! The score and lives values should be displayed in the top-left corner:
+
+<p>
+<img class="center" src="../Images/C4_01_04_Text.png" alt="The Score And Lives On The Screen">
+
+
+<p>
+Click the "Next" button to see how to set a font for drawing the values...
+
+
+<p>
+<br>
+</p>
+<p>
+  </div>
+
+  <div class="footer">
+    <div class="buttons">
+		<div class="clear">
+			<div style="float:left">
+				<a href="../Chapter3/page06.html"  class="prev">
+				<div id="button-prev"></div>
+				</a>
+			</div>
+			<div style="float:right">
+				<a href="page02.html" class="next">
+					<div id="button-next"></div>
+				</a>
+			</div>
+		</div>
+    </div>
+    <h5>&copy; Copyright YoYo Games Ltd. 2019 All Rights Reserved</h5>
+  </div>
+
+</body>
+</html>

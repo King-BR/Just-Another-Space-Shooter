@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>GameMaker Tutorial</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" title="style" charset="UTF-8"/>
+		<script type="text/javascript">
+			var changePage = function(){
+				var newPage = document.getElementById("page-select");
+				//alert(newPage.value);
+				window.location.replace(newPage.value);
+				}
+		</script>
+	</head>
+<body>
+
+<h2>Tutorial - Space Rocks</h2>
+	<div class="head">
+		<select id="page-select" onChange="changePage()">
+			<optgroup label="Chapter 3 - Score, Lives and Effects">
+				<option style="font-weight:bold;" value="page04.html">Rooms</option>
+				<option value="page05.html">Room Text</option>
+				<option value="page06.html">Game Control</option>
+				<option value="page01.html">Controller Objects</option>
+				<option value="page02.html">Fonts</option>
+				<option value="page03.html">Setting Score and Lives</option>
+			</optgroup>
+				<option style="font-weight:bold;" value="../index.html">Introduction</option>
+				<option style="font-weight:bold;" value="../Chapter4/page01.html">Chapter 4 - Sound Effects and Polish</option>
+				<option style="font-weight:bold;" value="../Chapter1/page01.html">Chapter 1 - Getting Started</option>
+				<option style="font-weight:bold;" value="../Chapter2/page01.html">Chapter 2 - Attacking and Collisions</option>
+		  </optgroup>
+		</select>
+	</div>
+<!--<h5 style="color: #ffffff; text-align:left; font-size:1em;">Starting A New Project</h5>-->
+<div class="body-scroll">
+
+<p>
+In order to add things like menu screens into our game we will create a few more rooms. Duplicate "<tt>rm_game</tt>" (use the right mouse button <img style="vertical-align:middle" src="../Icon_RMB.png"> on the room and select <i>Duplicate</i>) and name this new room "<tt>rm_start</tt>". Open "<tt>rm_start</tt>" and delete everything apart from the "<tt>obj_game</tt>" instance:
+
+<p>
+<img class="center" src="../Images/C4_04_01_RemoveInstances.gif" alt="Remove Instances From Room">
+
+<p>
+You can hold down <img style="vertical-align:middle" src="../Icon_Shift.png"> and then click <img style="vertical-align:middle" src="../Icon_LMB.png"> and drag to select the instances to remove and then press <img style="vertical-align:middle" src="../Icon_Delete.png"> to remove them.
+
+<p>
+This leaves an instance of our controller object "<tt>obj_game</tt>" in the room. We are now going to make this object <b>persistent</b>. Persistent objects are retained as you move from room to room; unlike regular objects, which are cleared from memory each time you leave a room. Note that a persistent object will therefore <i>not trigger its <b>Create</b> or <b>Destroy</b> events when changing rooms</i>, but it <i>will</i> trigger its <b>Room Start</b> and <b>Room End</b> events if it has them.
+
+<p>
+Open the object "<tt>obj_game</tt>" now and check the box marked <b>Persistent</b>:
+
+<p>
+<img class="center" src="../Images/C4_04_02_Persistent.gif" alt="Make An Object Persistent">
+
+<p>
+We can go back and remove the instance of "<tt>obj_game</tt>" from the room "<tt>rm_game</tt>", as the instance created in the "<tt>rm_start</tt>" room will now persist into all subsequent rooms.
+
+<p>
+We also need to reorder the two rooms so "<tt>rm_start</tt>" is above "<tt>rm_game</tt>", as <i>GameMaker Studio 2</i> will always start by loading the first room in the resource tree when your game is run:
+
+<p>
+<img class="center" src="../Images/C4_04_03_RoomOrder.gif" alt="Change Room Resource Order">
+
+<p>
+Now we can add the rest of the rooms that our game requires. For that, duplicate the room "<tt>rm_start</tt>", rename the new room as "<tt>rm_win</tt>" and remove the instance of "<tt>obj_game</tt>" (so the room should have no instances in it).
+
+<p>
+We need one last room before we can go back to the programming, so duplicate the room "<tt>rm_win</tt>" and call it "<tt>rm_gameover</tt>". Your resource tree should now look like this:
+
+<p>
+<img class="center" src="../Images/C4_04_04_ResourceTree.png" alt="Room Resource Order">
+
+<p>
+Click the "Next" button to continue...
+
+
+<p>
+<br>
+</p>
+<p>
+  </div>
+
+  <div class="footer">
+    <div class="buttons">
+		<div class="clear">
+			<div style="float:left">
+				<a href="page03.html"  class="prev">
+				<div id="button-prev"></div>
+				</a>
+			</div>
+			<div style="float:right">
+				<a href="page05.html" class="next">
+					<div id="button-next"></div>
+				</a>
+			</div>
+		</div>
+    </div>
+    <h5>&copy; Copyright YoYo Games Ltd. 2019 All Rights Reserved</h5>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>GameMaker Tutorial</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" title="style" charset="UTF-8"/>
+		<script type="text/javascript">
+			var changePage = function(){
+				var newPage = document.getElementById("page-select");
+				//alert(newPage.value);
+				window.location.replace(newPage.value);
+				}
+		</script>
+	</head>
+<body>
+
+<h2>Tutorial - Space Rocks</h2>
+	<div class="head">
+		<select id="page-select" onChange="changePage()">
+			<optgroup label="Chapter 4 - Sound Effects and Polish">
+				<option style="font-weight:bold;" value="page03.html">Playing Sounds</option>
+				<option value="page04.html">Final Touches</option>
+				<option value="page05.html">Summary</option>
+				<option value="page01.html">Spawning Asteroids</option>
+				<option value="page02.html">Adding Sounds</option>
+			</optgroup>
+				<option style="font-weight:bold;" value="../index.html">Introduction</option>
+				<option style="font-weight:bold;" value="../Chapter1/page01.html">Chapter 1 - Getting Started</option>
+				<option style="font-weight:bold;" value="../Chapter2/page01.html">Chapter 2 - Attacking and Collisions</option>
+				<option style="font-weight:bold;" value="../Chapter3/page01.html">Chapter 3 - Score, Lives and Effects</option>
+		  </optgroup>
+		</select>
+	</div>
+<!--<h5 style="color: #ffffff; text-align:left; font-size:1em;">Starting A New Project</h5>-->
+<div class="body-scroll">
+
+<p>
+The first thing we'll do is add the music for the game when playing. For that, open the object "<tt>obj_game</tt>" and go to the <b>Room Start Event</b>. We want the music to play when we enter the room "<tt>rm_game</tt>", so we need to modify the code already in the event to look like this:
+
+<p class="code">
+if (room == rm_game)<br>
+{<br>
+audio_play_sound(msc_song, 2, true);<br>
+repeat(6)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var xx = choose(irandom_range(0, room_width * 0.3), irandom_range(room_width * 0.7, room_width));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var yy = choose(irandom_range(0, room_height * 0.3), irandom_range(room_height * 0.7, room_height));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;instance_create_layer(xx, yy, "Instances", obj_asteroid);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+alarm[0] = 60;<br>
+}<br>
+</p>
+
+<p>
+Here we use the function <a href="gms2tutorials:///ShowHelp?tag=audio_play_sound"><tt>audio_play_sound()</tt></a> to play the music resource that we added. We set the "priority" to 2 and also set the loop argument to <tt>true</tt> as we want the music to play constantly while the player is in the game room.
+
+Once you've added that we can then add in the win/lose sounds to this object. For that, go to the <b>Step Event</b> and modify the <tt>score</tt> and <tt>lives</tt> checks to look like this:
+
+<p class="code">
+if room == rm_game<br>
+{<br>
+if score &gt;= 1000<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;audio_play_sound(snd_win, 1, false);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;room_goto(rm_win);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+if lives &lt;= 0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;audio_play_sound(snd_lose, 1, false);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;room_goto(rm_gameover);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</p>
+
+<p>
+Note that this time we set the priority argument to 1, as we want the sound effects to have less priority than the music, and we also set the loop argument to <tt>false</tt>, as we don't want these sounds to play more than once.
+
+<p>
+You need to go to the object "<tt>obj_ship</tt>" now, and open the <b>Step Event</b>. Here we want to modify the <tt>keyboard_check_pressed(vk_space)</tt> code block like this:
+
+<p class="code">
+if (keyboard_check_pressed(vk_space))<br>
+{<br>
+audio_play_sound(snd_zap, 1, false);<br>
+var inst = instance_create_layer(x, y, "Instances", obj_bullet);<br>
+inst.direction = image_angle;<br>
+}<br>
+</p>
+
+<p>
+The player ship object also needs to have a sound for when it collides with an asteroid, so open the <b>Collision Event</b> with the object "<tt>obj_asteroid</tt>" and add this line to the top:
+
+<p class="code">
+audio_play_sound(snd_die, 1, false);<br>
+</p>
+
+<p>
+We'll use the same sound in the object "<tt>obj_bullet</tt>" for when it hits an asteroid, so open that object too and in the <b>Collision Event</b> with the object "<tt>obj_asteroid</tt>" and add the same line:
+
+<p class="code">
+audio_play_sound(snd_die, 1, false);<br>
+</p>
+
+<p>
+And that's it! You should run the game now and see how it sounds... it should feel a lot different playing!
+
+<p>
+There's only a couple of things we have left to do before the game is finished, so click the "Next" button to continue...
+
+
+<p>
+<br>
+</p>
+<p>
+  </div>
+
+  <div class="footer">
+    <div class="buttons">
+		<div class="clear">
+			<div style="float:left">
+				<a href="page02.html"  class="prev">
+				<div id="button-prev"></div>
+				</a>
+			</div>
+			<div style="float:right">
+				<a href="page04.html" class="next">
+					<div id="button-next"></div>
+				</a>
+			</div>
+		</div>
+    </div>
+    <h5>&copy; Copyright YoYo Games Ltd. 2019 All Rights Reserved</h5>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>GameMaker Tutorial</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" title="style" charset="UTF-8"/>
+		<script type="text/javascript">
+			var changePage = function(){
+				var newPage = document.getElementById("page-select");
+				//alert(newPage.value);
+				window.location.replace(newPage.value);
+				}
+		</script>
+	</head>
+<body>
+
+<h2>Tutorial - Space Rocks</h2>
+	<div class="head">
+		<select id="page-select" onChange="changePage()">
+			<optgroup label="Chapter 2 - Attacking and Collisions">
+				<option style="font-weight:bold;" value="page05.html">Debris</option>
+				<option value="page06.html">Clean Up</option>
+				<option value="page01.html">Collision Masks</option>
+				<option value="page02.html">Collisions</option>
+				<option value="page03.html">Shooting</option>
+				<option value="page04.html">More Collisions</option>
+			</optgroup>
+				<option style="font-weight:bold;" value="../index.html">Introduction</option>
+				<option style="font-weight:bold;" value="../Chapter3/page01.html">Chapter 3 - Score, Lives and Effects</option>
+				<option style="font-weight:bold;" value="../Chapter4/page01.html">Chapter 4 - Sound Effects and Polish</option>
+				<option style="font-weight:bold;" value="../Chapter1/page01.html">Chapter 1 - Getting Started</option>
+		  </optgroup>
+		</select>
+	</div>
+<!--<h5 style="color: #ffffff; text-align:left; font-size:1em;">Starting A New Project</h5>-->
+<div class="body-scroll">
+
+<p>
+We're going to add a "debris" effect into our game, and not just for the small asteroids, but for whenever <i>any</i> asteroid is destroyed. For that you need to create a new sprite, set it to be a 1x1 pixel only, then colour it white. This will be our debris sprite, so give it an appropriate name like "<tt>spr_debris</tt>", and then you can close the Sprite Editor, as we don't need to change its collision mask or do anything else.
+
+<p>
+<img class="center" src="../Images/C3_05_01_DebrisSprite.png" alt="The Debris Sprite">
+
+<p>
+Now we need to make a new object, called "<tt>obj_debris</tt>". Create it and name it now, and assign it the sprite you just created, "<tt>spr_debris</tt>". We'll give this object a <b>Create Event</b> where we'll use the following code to give it a random direction and some momentum:
+
+<p class="code">
+direction = irandom_range(0, 359);<br>
+speed = 1;<br>
+</p>
+
+<p>
+We also want to give this object a <b>Step Event</b>, so do that now. In this event we'll make instances of the object fade out and then destroy themselves when they are no longer visible. To do this we'll be working with the <a href="gms2tutorials:///ShowHelp?tag=image_alpha"><tt>image_alpha</tt></a>, which is a built in variable that controls the <i>transparency</i> (alpha) of the sprite assigned to the instance. A value of 1 is fully opaque and a value of 0 is fully transparent, and what we'll have our object do is gradually lower the <tt>image_alpha</tt> from 1 to 0 with this code:
+
+<p class="code">
+image_alpha = image_alpha - 0.01;<br>
+if (image_alpha &lt;= 0)<br>
+{<br>
+instance_destroy();<br>
+}<br>
+</p>
+
+<p>
+This will take a small amount off the <tt>image_alpha</tt> and when it gets equal-to or below zero, the instance destroys itself. Note that we don't do the check as "<tt>if (image_alpha == 0)</tt>"! Most numbers in <i>GameMaker Studio 2</i> are <b>floating point</b> which means they can get minute rounding errors that can accumulate and cause issues with exact "<tt>==</tt>" checks. In the above case, it may be that the <tt>image_alpha</tt> value never reaches exactly zero and instead hits a number like 0.0000002, which would then roll over to be -0.0900002 and so never be exactly zero... which is why we check if it's <i>less than</i> or equal to 0. This may seem a bit contrary to common sense, but it's a fact of life when programming!
+
+<div class="note">
+	<b>NOTE</b>: If you want to know the reasons why this happens, then please take a moment to read this web page: <a href="https://floating-point-gui.de/" target="_blank">What Every Programmer Should Know About Floating-Point Arithmetic</a>.
+</div>
+
+<p>
+The final thing to do now is add some code to create these instances when the bullet hits the asteroids, and, just because we can, let's add them into the player object when it hits an asteroid and is destroyed too. So, open up the bullet object "<tt>obj_bullet</tt>" and in the <b>Collision Event</b> with "<tt>obj_asteroid</tt>", edit the code so it looks like this:
+
+<p class="code">
+with (other)<br>
+{<br>
+instance_destroy();<br>
+if (sprite_index == spr_asteroid_huge)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;repeat(2)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var new_asteroid = instance_create_layer(x, y, "Instances", obj_asteroid);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new_asteroid.sprite_index = spr_asteroid_med;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+else if (sprite_index == spr_asteroid_med)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;repeat(2)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var new_asteroid = instance_create_layer(x, y, "Instances", obj_asteroid);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new_asteroid.sprite_index = spr_asteroid_small;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+repeat(10)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;instance_create_layer(x, y, "Instances", obj_debris);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</p>
+
+<p>
+Then, open the player ship object "<tt>obj_ship</tt>" and in its <b>Collision Event</b> with "<tt>obj_asteroid</tt>", and add the following after <tt>instance_destroy()</tt>:
+
+<p class="code">
+repeat(10)<br>
+{<br>
+instance_create_layer(x, y, "Instances", obj_debris);<br>
+}<br>
+</p>
+
+<p>
+Run the game now, and shoot some asteroids! If all has gone well, then they should explode into smaller asteroids and create a nice puff of debris:
+
+<p>
+<img class="center" src="../Images/C3_05_02_Debris.gif" alt="Debris!">
+
+<p>
+Click the "Next" button to continue...
+
+
+<p>
+<br>
+</p>
+<p>
+  </div>
+
+  <div class="footer">
+    <div class="buttons">
+		<div class="clear">
+			<div style="float:left">
+				<a href="page04.html"  class="prev">
+				<div id="button-prev"></div>
+				</a>
+			</div>
+			<div style="float:right">
+				<a href="page06.html" class="next">
+					<div id="button-next"></div>
+				</a>
+			</div>
+		</div>
+    </div>
+    <h5>&copy; Copyright YoYo Games Ltd. 2019 All Rights Reserved</h5>
+  </div>
+
+</body>
+</html>

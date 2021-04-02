@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>GameMaker Tutorial</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" title="style" charset="UTF-8"/>
+		<script type="text/javascript">
+			var changePage = function(){
+				var newPage = document.getElementById("page-select");
+				//alert(newPage.value);
+				window.location.replace(newPage.value);
+				}
+		</script>
+	</head>
+<body>
+
+<h2>Tutorial - Space Rocks</h2>
+	<div class="head">
+		<select id="page-select" onChange="changePage()">
+			<optgroup label="Chapter 1 - Setup And Moving">
+				<option style="font-weight:bold;" value="page05.html">Game Logic</option>
+				<option value="page06.html">Moving</option>
+				<option value="page07.html">Wrap The Room</option>
+				<option value="page08.html">Asteroids</option>
+				<option value="page01.html">What We Need</option>
+				<option value="page02.html">Making Sprites</option>
+				<option value="page03.html">Making Objects</option>
+				<option value="page04.html">Editing Rooms</option>
+			</optgroup>
+				<option style="font-weight:bold;" value="../index.html">Introduction</option>
+				<option style="font-weight:bold;" value="../Chapter2/page01.html">Chapter 2 - Attacking and Collisions</option>
+				<option style="font-weight:bold;" value="../Chapter3/page01.html">Chapter 3 - Score, Lives and Effects</option>
+				<option style="font-weight:bold;" value="../Chapter4/page01.html">Chapter 4 - Sound Effects and Polish</option>
+		  </optgroup>
+		</select>
+	</div>
+<!--<h5 style="color: #ffffff; text-align:left; font-size:1em;">Starting A New Project</h5>-->
+<div class="body-scroll">
+
+<p>
+When programming, everything can be broken down to a fairly simply rule:
+
+<p class="code">
+if <b><i>this</i></b> then <b><i>that</i></b>
+</p>
+
+<p>
+So, all a program does is check if <i>this</i> happens, and if it does then <i>that</i> happens - like, "if a key is pressed then the player will move". Put into a more <i>GameMaker Studio 2</i> friendly format it would be expressed as 
+
+<p class="code">
+if <b><i>event</i></b> then <b><i>act</i></b>
+</p>
+
+<p>
+Which means that if an <b>event</b> is triggered, then a specific action must be performed. An event is simply a moment in time when something happens, and some events can be triggered once (like the <i>Global Mouse Left Down</i> event) or can be triggered every game frame (like the <i>Step Event</i>). Let's look at how to use these events to make our ship perform an action, in this case, move.
+
+<p>
+You'll need to open the object "<tt>obj_ship</tt>" (if it's not already open) by double clicking <img style="vertical-align:middle" src="../Icon_LMB.png"> it in the resource tree. When open, you can then click <img style="vertical-align:middle" src="../Icon_LMB.png"> on the <b>Add Event</b> to bring up the <b>Event List</b>:
+
+<p>
+<img class="center" src="../Images/C2_05_01_EventList.png" alt="The Object Event List">
+
+<p>
+There are two ways that we can check if the player is moving:
+
+<p>
+<ul>
+	<li>Use the discreet <b>Keyboard Events</b>, which will only be triggered when a key press is detected, or
+	<li>Use the <b>Step Event</b> and check using code for a keypress every step (game frame)
+</ul>
+
+<p>
+What you use in your projects is largely a matter of choice and will depend on how you like to work and the structure of your project. In this case, we are going to use the <b>Step Event</b>, as it can sometimes be clearer to see the game logic where it's all together, so go ahead and add a <b>Step Event</b> now.
+
+<p>
+<img class="center" src="../Images/C2_05_02_StepEvent.png" alt="The Step Event">
+
+<p>
+We're going to add some code here, and it will be run 60 times every second. Why? Because we set the game speed to be 60, which means that there will be 60 game frames ("steps") for every second that passes, and since the <b>Step Event</b> is triggered every game frame, any code we add into this event will be run 60 times each second too.
+
+<p>
+The basic interpretation of what we want to do first would be "if the left key is pressed, rotate the ship to the left". To get this into code we need to structure it like this:
+
+<p class="code">
+if (expression)<br>
+{<br>
+&lt;statement&gt;<br>
+&lt;statement&gt;<br>
+&lt;statement&gt;<br>
+}<br>
+</p>
+
+<p>
+So, we have our "<a href="gms2tutorials:///ShowHelp?tag=language_features"><tt>if</tt></a>" at the start and we'll be checking whatever expression goes inside the parenthesis <tt>()</tt> to see if it evaluates to a <tt>true</tt> or a <tt>false</tt> result. So something like "<tt>if (my_variable == 1)</tt>" checks to see if a variable is exactly equal to 1 and if that is <tt>true</tt> then it will go on to perform the code that you have in the <tt>{}</tt>.
+
+<div class = "note">
+	<b>NOTE</b>: In general you'll want to use a double equals "<tt>==</tt>" for checking a value, and single equals "<tt>=</tt>" for assigning a value.
+</div>
+
+<p>
+Let's add the actual code into the Step Event of the "<tt>obj_ship</tt>" now:
+
+<p class="code">
+if (keyboard_check(vk_left))<br>
+{<br>
+image_angle = image_angle + 5;<br>
+}<br>
+</p>
+
+<p>
+Here we check the <b>function</b> <a href="gms2tutorials:///ShowHelp?tag=keyboard_check"><tt>keyboard_check()</tt></a> to see if the left arrow key is being held down, and if it is (the function will return <tt>true</tt> if it is or <tt>false</tt> if it's not) then we add 5 to the <a href="gms2tutorials:///ShowHelp?tag=image_angle"><tt>image_angle</tt></a> of the instance. The <tt>image_angle</tt> variable governs the angle at which the assigned sprite will be drawn. Note that at the end of each statement we add a semi-colon <tt>;</tt>, which is the code equivalent of the full-stop at the end of a sentence.
+
+<div class = "note">
+	<b>NOTE</b>: <tt>image_angle</tt> is an <b>instance variable</b> which is a variable that all instances of objects will have. There are many different instance variables, and all of them will be useful to you at some point while creating your games, so take a moment to find out more reading <a href="gms2tutorials:///ShowHelp?tag=instance_variables">the manual</a>.
+</div>
+
+<p>
+Why are we adding 5 if we are turning left? That's because angles in <i>GameMaker Studio 2</i> go anti-clockwise with 0&deg; being to the right:
+
+<p>
+<img class="center" src="../Images/C2_05_03_Angles.png" alt="How Angles Are Calculated">
+
+<p>
+This is why we made our ship sprite facing right - it makes setting the angles when rotating much easier! 
+
+<p>
+We can use almost the exact same code for turning the ship to the right, so copy the lines of code for the left key (you can select the lines and then use <img style="vertical-align:middle" src="../Icon_Ctrl.png"> / <img style="vertical-align:middle" src="../Icon_Cmd.png"> + "D" to duplicate them) and then make the following changes:
+
+<p class="code">
+if (keyboard_check(vk_right))<br>
+{<br>
+image_angle = image_angle - 5;<br>
+}<br>
+</p>
+
+<p>
+You can press the <b>Play</b> button <img style="vertical-align:middle" src="../Icon_Play.png"> now, and if you press the left/right arrow keys you should see your ship instance rotating.
+
+<p>
+<img class="center" src="../Images/C2_05_04_Rotating.gif" alt="Rotating The Ship Instance">
+
+<p>
+We are now ready to make the player ship move! Click "Next" to continue...
+
+
+<p>
+<br>
+</p>
+<p>
+  </div>
+
+  <div class="footer">
+    <div class="buttons">
+		<div class="clear">
+			<div style="float:left">
+				<a href="page04.html"  class="prev">
+				<div id="button-prev"></div>
+				</a>
+			</div>
+			<div style="float:right">
+				<a href="page06.html" class="next">
+					<div id="button-next"></div>
+				</a>
+			</div>
+		</div>
+    </div>
+    <h5>&copy; Copyright YoYo Games Ltd. 2019 All Rights Reserved</h5>
+  </div>
+
+</body>
+</html>

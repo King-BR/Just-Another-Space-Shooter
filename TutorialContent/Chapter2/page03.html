@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>GameMaker Tutorial</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" title="style" charset="UTF-8"/>
+		<script type="text/javascript">
+			var changePage = function(){
+				var newPage = document.getElementById("page-select");
+				//alert(newPage.value);
+				window.location.replace(newPage.value);
+				}
+		</script>
+	</head>
+<body>
+
+<h2>Tutorial - Space Rocks</h2>
+	<div class="head">
+		<select id="page-select" onChange="changePage()">
+			<optgroup label="Chapter 2 - Attacking and Collisions">
+				<option style="font-weight:bold;" value="page03.html">Shooting</option>
+				<option value="page04.html">More Collisions</option>
+				<option value="page05.html">Debris</option>
+				<option value="page06.html">Clean Up</option>
+				<option value="page01.html">Collision Masks</option>
+				<option value="page02.html">Collisions</option>
+			</optgroup>
+				<option style="font-weight:bold;" value="../index.html">Introduction</option>
+				<option style="font-weight:bold;" value="../Chapter3/page01.html">Chapter 3 - Score, Lives and Effects</option>
+				<option style="font-weight:bold;" value="../Chapter4/page01.html">Chapter 4 - Sound Effects and Polish</option>
+				<option style="font-weight:bold;" value="../Chapter1/page01.html">Chapter 1 - Getting Started</option>
+		  </optgroup>
+		</select>
+	</div>
+<!--<h5 style="color: #ffffff; text-align:left; font-size:1em;">Starting A New Project</h5>-->
+<div class="body-scroll">
+
+<p>
+Asteroids can now destroy the player, but we haven't got any mechanism for the player to destroy the asteroids! Let's add that now...
+
+<p>
+The first thing we need to do is make the bullet sprite, so make a new <b>Sprite Resource</b>, call it "<tt>spr_bullet</tt>" and set its size to 2x2px:
+
+<p>
+<img class="center" src="../Images/C3_03_01_BulletSprite.png" alt="Adding A Bullet Sprite">
+
+<p>
+Now, edit the sprite in the <b>Image Editor</b> and colour it white, so that you get a 2x2px white square. Close the Image Editor, and then set the <b>origin</b> of the sprite to <i>Middle Center</i> and leave the collision mask on its default properties, which are perfectly fine for this sprite.
+
+<p>
+The next thing to do is make a new object, call it "<tt>obj_bullet</tt>" and assign it this new sprite that you've just created:
+
+<p>
+<img class="center" src="../Images/C3_03_02_BulletObject.png" alt="Adding A Bullet Object">
+
+<p>
+We can go back to the player ship object now, and open up the <b>Step Event</b> again. We are going to add the following code to detect a key press and then create an instance of the bullet object:
+
+<p class="code">
+if (keyboard_check_pressed(vk_space))<br>
+{<br>
+instance_create_layer(x, y, "Instances", obj_bullet);<br>
+}<br>
+</p>
+
+<p>
+So, we're using <a href="gms2tutorials:///ShowHelp?tag=keyboard_check_pressed"><tt>keyboard_check_pressed()</tt></a> instead of the previously used <tt>keyboard_check()</tt> function, because we only want to create 1 bullet for every key <i>press</i>. If we just used <tt>keyboard_check()</tt>, then we'd be creating a new bullet instance <i>every step the key is held down</i> (so 60 bullets in one second since our game is at 60FPS). We obviously don't want that and by using the <tt>_pressed</tt> function, the "if" will only evaluate to <tt>true</tt> once each time the key is pressed, and no more even if it's held down.
+
+<p>
+This code means that every time the player presses the spacebar <img style="vertical-align:middle" src="../Icon_Space.png">, a bullet will be created on the layer named "Instances". A layer is simply a plane on which we place instances in the room editor, and if you look in the room editor you can see in the top left corner (by default) the list of layers in the room. You can add or remove layers here too, and each layer has a "depth" value associated with where the higher the depth, the "further" from the viewer it is and the lower the depth, the "closer" to the viewer, so that a layer at depth 100 will be drawn <i>under</i> a layer at depth -200.
+
+<p>
+We're not quite finished with that code yet though... When created, the bullet won't be moving and even if it was, it wouldn't know which direction to move in. So, to solve that, we need to tell it the direction to move using code.
+
+<p>
+The function <a href="gms2tutorials:///ShowHelp?tag=instance_create_layer"><tt>instance_create_layer()</tt></a> returns an <b>instance ID</b> value, which is the unique ID for the instance that it created. We can use this ID to set values and properties on the instance, straight after it has been created, as shown in the following code:
+
+<p class="code">
+if (keyboard_check_pressed(vk_space))<br>
+{<br>
+var inst = instance_create_layer(x, y, "Instances", obj_bullet);<br>
+inst.direction = image_angle;<br>
+}<br>
+</p>
+
+<p>
+What's going on here then? Well, we have create a <b>local</b> variable called "<tt>inst</tt>", and we're using it to store the returned instance ID from the create function. A local variable is a "use and throw away" variable, that will only exist for the duration of the script or the event that it was declared in. This is useful for data that we don't need to hang around (for more information on variables and variable scope, please <a href="gms2tutorials:///ShowHelp?keyword=variables - scope">see the manual</a>).
+
+<p>
+We then use this variable to set the direction of movement for the instance we just created. When we use the ID value followed by a point"." like this, we are telling <i>GameMaker Studio 2</i> that the "<tt>direction</tt> variable we are setting is in the instance stored in the "<tt>inst</tt>" variable, and <i>not</i> in the instance running the main code block. So, i this way we are setting the bullet direction to match the angle of rotation of the ship sprite.
+
+<p>
+The final thing we need to do is set the speed of the bullet. Now, you <i>could</i> do this in the player object using <tt>inst.speed = VALUE</tt>, as we did for the <tt>direction</tt>, but that's unnecessary as the speed for all bullets is always going to be the same, and generally accessing an instance this way is only used for values that are going to change (like the direction). So, we need to go back to the bullet object "<tt>obj_bullet</tt>" and add in a <b>Create Event</b> with this code:
+
+<p class="code">
+speed = 6;<br>
+</p>
+
+<p>
+You can test the game now, and you should see that every time you press the keyboard spacebar down, a single bullet will be released, and you have to release and press the spacebar again to create more:
+
+<p>
+<img class="center" src="../Images/C3_03_03_Shooting.gif" alt="Shooting From The Ship">
+
+<p>
+Click the "Next" button to continue...
+
+
+<p>
+<br>
+</p>
+<p>
+  </div>
+
+  <div class="footer">
+    <div class="buttons">
+		<div class="clear">
+			<div style="float:left">
+				<a href="page02.html"  class="prev">
+				<div id="button-prev"></div>
+				</a>
+			</div>
+			<div style="float:right">
+				<a href="page04.html" class="next">
+					<div id="button-next"></div>
+				</a>
+			</div>
+		</div>
+    </div>
+    <h5>&copy; Copyright YoYo Games Ltd. 2019 All Rights Reserved</h5>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>GameMaker Tutorial</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" title="style" charset="UTF-8"/>
+		<script type="text/javascript">
+			var changePage = function(){
+				var newPage = document.getElementById("page-select");
+				//alert(newPage.value);
+				window.location.replace(newPage.value);
+				}
+		</script>
+	</head>
+<body>
+
+<h2>Tutorial - Space Rocks</h2>
+	<div class="head">
+		<select id="page-select" onChange="changePage()">
+			<optgroup label="Chapter 1 - Setup And Moving">
+				<option style="font-weight:bold;" value="page04.html">Editing Rooms</option>
+				<option value="page05.html">Game Logic</option>
+				<option value="page06.html">Moving</option>
+				<option value="page07.html">Wrap The Room</option>
+				<option value="page08.html">Asteroids</option>
+				<option value="page01.html">What We Need</option>
+				<option value="page02.html">Making Sprites</option>
+				<option value="page03.html">Making Objects</option>
+			</optgroup>
+				<option style="font-weight:bold;" value="../index.html">Introduction</option>
+				<option style="font-weight:bold;" value="../Chapter2/page01.html">Chapter 2 - Attacking and Collisions</option>
+				<option style="font-weight:bold;" value="../Chapter3/page01.html">Chapter 3 - Score, Lives and Effects</option>
+				<option style="font-weight:bold;" value="../Chapter4/page01.html">Chapter 4 - Sound Effects and Polish</option>
+		  </optgroup>
+		</select>
+	</div>
+<!--<h5 style="color: #ffffff; text-align:left; font-size:1em;">Starting A New Project</h5>-->
+<div class="body-scroll">
+
+<p>
+All projects in <i>GameMaker Studio 2</i> start with a room already in the resource tree called "<tt>Room_0</tt>". This means we don't need to create one for now, but you should rename this room to "<tt>rm_game</tt>" so it has a less generic name (this is done by performing a slow double-click <img style="vertical-align:middle" src="../Icon_LMB.png"> on the name in the resource tree and then typing the new name). Now, what happens if we add instances of our objects to the room and test it?
+
+<p>
+Let's find out! Open the <b>Room Editor</b> by double clicking <img style="vertical-align:middle" src="../Icon_LMB.png"> on the room in the resource tree. When the Room Editor opens, you'll see a lot of new tabs appear in the IDE. We're not going to worry too much about them right now, so just click and drag an instance of the object "<tt>obj_ship</tt>" into the room:
+
+<p>
+<img class="center" src="../Images/C2_04_01_AddInstance.gif" alt="Add An Instance To A Room">
+
+<p>
+Now drag in a few instances of the object "<tt>obj_Asteroid</tt>", so that it looks like this:
+
+<p>
+<img class="center" src="../Images/C2_04_02_Room.png" alt="Room With Instances Placed">
+
+<p>
+If you click the <b>Play</b> quick button <img style="vertical-align:middle" src="../Icon_Play.png"> now, the game will compile and you should see a window open with the instances we've placed in the room visible:
+
+<p>
+<img class="center" src="../Images/C2_04_03_Game.png" alt="The Game Window">
+
+<p>
+Okay, that's not very interactive, but it's a start! Seeing the game like this though does show up a minor problem... the game window is too big. We want the game to have a retro feel, so that means a smaller resolution and play area. Close the game window and go back to the room editor now.
+
+<p>
+We are going to edit the size of the room, so go to the <b>Room Properties</b> and change the <i>Width</i> and <i>height</i> to 500px each:
+
+<p>
+<img class="center" src="../Images/C2_04_04_RoomSize.png" alt="Change The Room Size">
+
+<p>
+This will change the room size, but may leave some instances outside of the room. You can simply click <img style="vertical-align:middle" src="../Icon_LMB.png"> on them then drag them back into the playable room area.
+
+<p>
+If you test play the game again, you can see that the game window is a much more appropriate size.
+
+<div class="note">
+	<b>NOTE:</b> The game window is not just governed by the room size as you can use <b>cameras</b> and <b>viewports</b> to change the window size and change what is visible inside a room. For example, to only show smaller areas of a larger room. This isn't covered in this tutorial, but look up <a href="gms2tutorials:///ShowHelp?tag=cameras_display">Cameras</a> in the manual for more information.
+</div>
+
+<p>
+We can now go back to our game objects and start to add some logic into them so they actually <i>do something</i>...
+
+<p>
+Click "Next" to continue...
+
+
+<p>
+<br>
+</p>
+<p>
+  </div>
+
+  <div class="footer">
+    <div class="buttons">
+		<div class="clear">
+			<div style="float:left">
+				<a href="page03.html"  class="prev">
+				<div id="button-prev"></div>
+				</a>
+			</div>
+			<div style="float:right">
+				<a href="page05.html" class="next">
+					<div id="button-next"></div>
+				</a>
+			</div>
+		</div>
+    </div>
+    <h5>&copy; Copyright YoYo Games Ltd. 2019 All Rights Reserved</h5>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>GameMaker Tutorial</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" title="style" charset="UTF-8"/>
+		<script type="text/javascript">
+			var changePage = function(){
+				var newPage = document.getElementById("page-select");
+				//alert(newPage.value);
+				window.location.replace(newPage.value);
+				}
+		</script>
+	</head>
+<body>
+
+<h2>Tutorial - Space Rocks</h2>
+	<div class="head">
+		<select id="page-select" onChange="changePage()">
+			<optgroup label="Chapter 1 - Setup And Moving">
+				<option style="font-weight:bold;" value="page08.html">Asteroids</option>
+				<option value="page01.html">What We Need</option>
+				<option value="page02.html">Making Sprites</option>
+				<option value="page03.html">Making Objects</option>
+				<option value="page04.html">Editing Rooms</option>
+				<option value="page05.html">Game Logic</option>
+				<option value="page06.html">Moving</option>
+				<option value="page07.html">Wrap The Room</option>
+			</optgroup>
+				<option style="font-weight:bold;" value="../index.html">Introduction</option>
+				<option style="font-weight:bold;" value="../Chapter2/page01.html">Chapter 2 - Attacking and Collisions</option>
+				<option style="font-weight:bold;" value="../Chapter3/page01.html">Chapter 3 - Score, Lives and Effects</option>
+				<option style="font-weight:bold;" value="../Chapter4/page01.html">Chapter 4 - Sound Effects and Polish</option>
+		  </optgroup>
+		</select>
+	</div>
+<!--<h5 style="color: #ffffff; text-align:left; font-size:1em;">Starting A New Project</h5>-->
+<div class="body-scroll">
+
+<p>
+Currently, the asteroid object does nothing. It has a single sprite and doesn't move, so we need to fix that and make things more interesting!
+
+<p>
+We are going to add some code into the object "<tt>obj_asteroid</tt>" <b>Create Event</b>. Unlike the Step Event, this event is only triggered <i>once</i>, when an instance of the object is created, and because of this it's an ideal place to initialise variables and run any functions that you want when creating the instance.
+
+<p>
+We want our asteroids to be different from each other when they're created, and so we'll set the instance variable <a href="gms2tutorials:///ShowHelp?tag=sprite_index"><tt>sprite_index</tt></a> to use a random sprite from our resource tree. The <tt>sprite_index</tt> is the variable that holds the assigned sprite ID value, or "index", and so we can change it at any time to change the sprite the object will draw. We'll also use the <a href="gms2tutorials:///ShowHelp?tag=choose"><tt>choose()</tt></a> function, to randomly pick from one of the three sprites we previously created.
+
+<p>
+So, open up "<tt>obj_asteroid</tt>" and add a <b>Create Event</b> to the Event Editor. This will open a code editor where we'll add the following:
+
+
+<p class="code">
+sprite_index = choose(spr_asteroid_small, spr_asteroid_med, spr_asteroid_huge);
+</p>
+
+<p>
+If you test the game again you'll get something like the following:
+
+<p>
+<img class="center" src="../Images/C2_08_01_Asteroids.png" alt="Different Sized Asteroids">
+
+<p>
+We need to set the asteroid moving in a direction now, and we want that direction to be random. We briefly mentioned the <a href="gms2tutorials:///ShowHelp?tag=direction"><tt>direction</tt></a> built-in variable earlier, and we'll use it now, like this, after the code to choose the <tt>sprite_index</tt>:
+
+<p class="code">
+direction = irandom_range(0, 359);
+</p>
+
+<p>
+Now, <tt>direction</tt> is not the same as the <tt>image_angle</tt>, since one is the direction of movement, and the other is the angle a sprite will be drawn at, so we might as well change the <tt>image_angle</tt> to a random value too, as that will increase the visual variety:
+
+<p class="code">
+image_angle = irandom_range(0, 359);
+</p>
+
+<p>
+In both lines of code we are using the function <a href="gms2tutorials:///ShowHelp?tag=irandom_range"><tt>irandom_range()</tt></a>, which will return a random <i>integer</i> value between 0 and 359 <i>inclusive</i>.
+
+<p>
+Finally in this event, we need to set the <a href="gms2tutorials:///ShowHelp?tag=speed"><tt>speed</tt></a> of the instance, so add this line of code:
+
+<p class="code">
+speed = 1;
+</p>
+
+<p>
+So now the asteroids will move 1px per step in a random direction and be drawn at a random angle. But before we test, there is one final thing we need to do, and that's add the wrapping code we used on our player ship object to also wrap the asteroids, otherwise when they leave the room they'll be lost forever!
+
+<p>
+Add a <b>Step Event</b> into the "<tt>obj_asteroid</tt>" and copy/paste the <tt>move_wrap()</tt> code from the player ship object:
+
+<p class="code">
+move_wrap(true, true, sprite_width / 2);
+</p>
+
+<p>
+We'll also make the asteroids spin a little as they move, again to add more visual interest to the game. For that, you'd add this into the <b>Step Event</b>
+
+<p class="code">
+image_angle = image_angle + 1;
+</p>
+
+<p>
+Test the game again now and you will see that the asteroids now move, spin and wrap around the room!
+
+<p>
+<img class="center" src="../Images/C2_08_02_EverythingMoving.gif" alt="Moving Asteroids">
+
+<p>
+Click the "Next" button to continue on to the section about <b>Attacking and Collisions</b>...
+
+
+<p>
+<br>
+</p>
+<p>
+  </div>
+
+  <div class="footer">
+    <div class="buttons">
+		<div class="clear">
+			<div style="float:left">
+				<a href="page07.html"  class="prev">
+				<div id="button-prev"></div>
+				</a>
+			</div>
+			<div style="float:right">
+				<a href="../Chapter2/page01.html" class="next">
+					<div id="button-next"></div>
+				</a>
+			</div>
+		</div>
+    </div>
+    <h5>&copy; Copyright YoYo Games Ltd. 2019 All Rights Reserved</h5>
+  </div>
+
+</body>
+</html>

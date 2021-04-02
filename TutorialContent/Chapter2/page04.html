@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>GameMaker Tutorial</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" title="style" charset="UTF-8"/>
+		<script type="text/javascript">
+			var changePage = function(){
+				var newPage = document.getElementById("page-select");
+				//alert(newPage.value);
+				window.location.replace(newPage.value);
+				}
+		</script>
+	</head>
+<body>
+
+<h2>Tutorial - Space Rocks</h2>
+	<div class="head">
+		<select id="page-select" onChange="changePage()">
+			<optgroup label="Chapter 2 - Attacking and Collisions">
+				<option style="font-weight:bold;" value="page04.html">More Collisions</option>
+				<option value="page05.html">Debris</option>
+				<option value="page06.html">Clean Up</option>
+				<option value="page01.html">Collision Masks</option>
+				<option value="page02.html">Collisions</option>
+				<option value="page03.html">Shooting</option>
+			</optgroup>
+				<option style="font-weight:bold;" value="../index.html">Introduction</option>
+				<option style="font-weight:bold;" value="../Chapter3/page01.html">Chapter 3 - Score, Lives and Effects</option>
+				<option style="font-weight:bold;" value="../Chapter4/page01.html">Chapter 4 - Sound Effects and Polish</option>
+				<option style="font-weight:bold;" value="../Chapter1/page01.html">Chapter 1 - Getting Started</option>
+		  </optgroup>
+		</select>
+	</div>
+<!--<h5 style="color: #ffffff; text-align:left; font-size:1em;">Starting A New Project</h5>-->
+<div class="body-scroll">
+
+<p>
+We need our bullets to destroy the asteroids, so to do that we need to open the object "<tt>obj_bullet</tt>" (if it's not already open) and add a <b>Collision Event</b> to it with the object "<tt>obj_asteroid</tt>":
+
+<p>
+<img class="center" src="../Images/C3_04_01_CollisionBullet.png" alt="Adding A Collision With A Bullet">
+
+<p>
+The first thing we're going to do in this event is tell the bullet to destroy itself using <a href="gms2tutorials:///ShowHelp?tag=instance_destroy"><tt>instance_destroy()</tt></a>:
+
+<p class="code">
+instance_destroy();
+</p>
+
+<p>
+You might think that this will prevent any further code from running after the function is called, but in <i>GameMaker Studio 2</i> destroying an instance doesn't happen until the end of the event, so although we've called this function, it doesn't exit the event and the instance won't actually be removed from the room until the collision event is resolved.
+
+<p>
+What other code do we need? Well, we want the bullet to destroy the asteroids it hits, and we also want it to "split" the bigger asteroids into smaller ones. To do this we need to be able to access the instance ID of the asteroid that is being detected as colliding with the bullet, and for that we'll use the special <a href="gms2tutorials:///ShowHelp?tag=keywords">keyword</a> "<tt>other</tt>". This keyword, when used in the collision event, will reference the "other" instance in the collision, so in our game, the bullet is colliding with an asteroid, so "<tt>other</tt>" will reference the unique ID of the asteroid.
+
+<p>
+To use this keyword we'll do this:
+
+<p class="code">
+with (other)<br>
+{<br>
+<br>
+}<br>
+</p>
+
+<p>
+Here we introduce the <a href="gms2tutorials:///ShowHelp?keyword=variables - addressing"><tt>with()</tt></a> statement. When you call "<tt>with (instance)</tt>" you are telling <i>GameMaker Studio 2</i> that everything within the curly brackets <tt>{}</tt> afterwords should be run as if it was native to the instance. So, in this case, while the code is in the bullet object, it will be run as if it was in the asteroid object. This means that we can access variables and run functions on the asteroid in the collision.
+
+<p>
+Like the bullet, we also want the asteroid to destroy itself, so we fill in the code like this:
+
+<p class="code">
+with (other)<br>
+{<br>
+instance_destroy();<br>
+}<br>
+</p>
+
+<p>
+Now, because we changed the <b>scope</b> of the code to the "other" instance in the collision (the asteroid instance), the <tt>instance_destroy()</tt> function will destroy the asteroid. We also want to "split" the asteroid based on what size the sprite is, so for that we'd add the following:
+
+<p class="code">
+with (other)<br>
+{<br>
+instance_destroy();<br>
+if (sprite_index == spr_asteroid_huge)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;repeat(2)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var new_asteroid = instance_create_layer(x, y, "Instances", obj_asteroid);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new_asteroid.sprite_index = spr_asteroid_med;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</p>
+
+<p>
+Here we're showing just the code for when the other asteroid in the collision is a "huge" asteroid. What it's doing is checking the sprite of the asteroid, and if it's a "huge" sprite, then it will create 2 new asteroids and assign them the "medium" sprite. Two things to note here: the first is the use of the <a href="gms2tutorials:///ShowHelp?tag=language_features"><tt>repeat()</tt></a> statement, which will simply repeat the code contained within the <tt>{}</tt> that follow by the number of times given (in this case, 2), and the second thing to note is how we change the asteroid sprite index. You'll remember that we set it to a random sprite in the <b>Create Event</b> of the object, and here we're overwriting it it with a different value. This works because the moment an instance is created, its create event is run and <i>then</i> the code continues in the event that created the instance.
+
+<p>
+We can duplicate this code for the medium asteroid, so that it will look like this:
+
+<p class="code">
+with (other)<br>
+{<br>
+instance_destroy();<br>
+if (sprite_index == spr_asteroid_huge)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;repeat(2)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var new_asteroid = instance_create_layer(x, y, "Instances", obj_asteroid);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new_asteroid.sprite_index = spr_asteroid_med;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+else if (sprite_index == spr_asteroid_med)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;repeat(2)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var new_asteroid = instance_create_layer(x, y, "Instances", obj_asteroid);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new_asteroid.sprite_index = spr_asteroid_small;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</p>
+
+<p>
+We've used the "<tt>if.... else if...</tt>" code format for this. Using "else" is simply a way to have another set of code run when an "if" evaluates to false, and adding another "if" after the "else" we are saying:
+
+<p class="code">
+if (this_evaluates_to_true)
+then do this {}
+else if (that_evaluates_to_true)
+then do that {}
+</p>
+
+<p>
+We could add another "else if" after that to check for a small asteroid sprite, but instead we'll do something slightly different...
+
+<p>
+Click the "Next" button to continue...
+
+
+<p>
+<br>
+</p>
+<p>
+  </div>
+
+  <div class="footer">
+    <div class="buttons">
+		<div class="clear">
+			<div style="float:left">
+				<a href="page03.html"  class="prev">
+				<div id="button-prev"></div>
+				</a>
+			</div>
+			<div style="float:right">
+				<a href="page05.html" class="next">
+					<div id="button-next"></div>
+				</a>
+			</div>
+		</div>
+    </div>
+    <h5>&copy; Copyright YoYo Games Ltd. 2019 All Rights Reserved</h5>
+  </div>
+
+</body>
+</html>

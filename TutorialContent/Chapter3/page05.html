@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>GameMaker Tutorial</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" title="style" charset="UTF-8"/>
+		<script type="text/javascript">
+			var changePage = function(){
+				var newPage = document.getElementById("page-select");
+				//alert(newPage.value);
+				window.location.replace(newPage.value);
+				}
+		</script>
+	</head>
+<body>
+
+<h2>Tutorial - Space Rocks</h2>
+	<div class="head">
+		<select id="page-select" onChange="changePage()">
+			<optgroup label="Chapter 3 - Score, Lives and Effects">
+				<option style="font-weight:bold;" value="page05.html">Room Text</option>
+				<option value="page06.html">Game Control</option>
+				<option value="page01.html">Controller Objects</option>
+				<option value="page02.html">Fonts</option>
+				<option value="page03.html">Setting Score and Lives</option>
+				<option value="page04.html">Rooms</option>
+			</optgroup>
+				<option style="font-weight:bold;" value="../index.html">Introduction</option>
+				<option style="font-weight:bold;" value="../Chapter4/page01.html">Chapter 4 - Sound Effects and Polish</option>
+				<option style="font-weight:bold;" value="../Chapter1/page01.html">Chapter 1 - Getting Started</option>
+				<option style="font-weight:bold;" value="../Chapter2/page01.html">Chapter 2 - Attacking and Collisions</option>
+		  </optgroup>
+		</select>
+	</div>
+<!--<h5 style="color: #ffffff; text-align:left; font-size:1em;">Starting A New Project</h5>-->
+<div class="body-scroll">
+
+<p>
+Open up the object "<tt>obj_game</tt>" (if it's not already) and go to the <b>Draw Event</b>. Since our object is persistent now, the code we have for drawing the score and lives will run in all the rooms the instance is persisted across and not just the main game room. Now, we could resolve this using a few "<tt>if</tt>... <tt>else if...</tt>" checks to see which room we are in and draw the text that's appropriate, but instead we'll use a <a href="gms2tutorials:///ShowHelp?tag=switch"><tt>switch()</tt></a> statement.
+
+<p>
+Using a <tt>switch()</tt> function we can check the <a href="gms2tutorials:///ShowHelp?tag=room"><tt>room</tt></a> global variable, which holds the ID of the current room this instance is in, and add different <tt>cases</tt> for each of the possible values. In each <tt>case</tt> we can have the controller draw different things.
+
+<p>
+So, let's change the draw code to look like this:
+
+<p class="code">
+switch (room)<br>
+{<br>
+case rm_game:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;draw_text(20, 20, "SCORE: " + string(score));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;draw_text(20, 40, "LIVES: " + string(lives));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+}<br>
+</p>
+
+<p>
+This code will only draw the text if the room ID is equal to "<tt>rm_game</tt>". Note that at the end of the <tt>case</tt> we add the keyword <a href="gms2tutorials:///ShowHelp?keyword=break"><tt>break</tt></a>. This is required to separate the different <tt>case</tt>s in the <tt>switch</tt>, and if you omit it then subsequent <tt>case</tt>s after the one that meets the <tt>switch</tt> condition will be run.
+
+<p>
+We'll set up the framework for the rest of the code now too, then go back and fill in the blanks, so continue to add <tt>case</tt>s into the Draw Event:
+
+<p class="code">
+switch (room)<br>
+{<br>
+case rm_game:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;draw_text(20, 20, "SCORE: " + string(score));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;draw_text(20, 40, "LIVES: " + string(lives));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;break;
+<br>
+<br>case rm_start:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+<br>
+case rm_win:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+<br>
+case rm_gameover:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+}<br>
+</p>
+
+<p>
+We'll do the start room "<tt>rm_start</tt>" first, so in that case we want to add the following code:
+
+<p class="code">
+var c = c_yellow;<br>
+draw_text_transformed_colour(room_width / 2, 100, "SPACE ROCKS", 3, 3, 0, c, c, c, c, 1);<br>
+</p>
+
+<p>
+This simply sets a local variable, <tt>c</tt>, to a <a href="gms2tutorials:///ShowHelp?tag=colour">colour constant</a> which is then used in the <a href="gms2tutorials:///ShowHelp?tag=draw_text_transformed_colour"><tt>draw_text_transformed_colour()</tt></a> to draw the game title scaled by 3 (see the manual for full information about the values this function takes).
+
+<p>
+Following that we add:
+
+<p class="code">
+draw_text(room_width / 2, 200, <br>
+@"Score 1,000 points to win!<br>
+<br>
+UP: move<br>
+LEFT/RIGHT: change direction<br>
+SPACE: shoot<br>
+<br>
+&gt;&gt;PRESS ENTER TO START&lt;&lt;");<br>
+</p>
+
+<p>
+Note that we use the "<tt>@</tt>" to prefix the string we are wanting to draw, and we have the string split over multiple lines. Using "<tt>@</tt>" like this tells <i>GameMaker Studio 2</i> that you are defining a <i>string literal</i>, which means that the string will be drawn with line breaks and other special characters, without the need for escape characters (see the section of the manual on <a href="gms2tutorials:///ShowHelp?tag=strings">Strings</a> for more information).
+
+<p>
+Why not try running the game now and seeing how it looks?
+
+<p>
+<img class="center" src="../Images/C4_05_01_BadText.png" alt="Text Is Not Aligned Correctly">
+
+<p>
+That doesn't look quite right, does it? What's happened is that <i>GameMaker Studio 2</i> has <i>left justified</i> all the text, so we need to tell it to <i>center justify</i> it using the function <a href="gms2tutorials:///ShowHelp?tag=draw_set_halign"><tt>draw_set_halign()</tt></a> and set it to the <b>constant</b> <tt>fa_center</tt>. Our complete case should now look like this:
+
+<p class="code">
+<br>case rm_start:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;draw_set_halign(fa_center);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var c = c_yellow;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;draw_text_transformed_colour(room_width / 2, 100, "SPACE ROCKS", 3, 3, 0, c, c, c, c, 1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;draw_text(room_width / 2, 200, <br>
+&nbsp;&nbsp;&nbsp;&nbsp;@"Score 1,000 points to win!<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;UP: move<br>
+&nbsp;&nbsp;&nbsp;&nbsp;LEFT/RIGHT: change direction<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SPACE: shoot<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;PRESS ENTER TO START&lt;&lt;");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;draw_set_halign(fa_left);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+</p>
+
+<p>
+Notice that we call the function <tt>draw_set_halign()</tt> at the end of the <tt>case</tt> to reset the alignment for the text. If you test the game now, then the text should be in the center of the room and look much better:
+
+<p>
+<img class="center" src="../Images/C4_05_02_GoodText.png" alt="Text Is Aligned Correctly">
+
+<p>
+The final thing to do now, is add in similar code for each of the other room cases, only changing the colour and position slightly to suit the different text. To start with we'll do the "<tt>rm_win</tt>" case, which should look like this:
+
+<p class="code">
+<br>case rm_win:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;draw_set_halign(fa_center);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var c = c_lime;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;draw_text_transformed_colour(room_width / 2, 200, "YOU WON!", 3, 3, 0, c, c, c, c, 1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;draw_text(room_width / 2, 300, "PRESS ENTER TO RESTART");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;draw_set_halign(fa_left);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+</p>
+
+<p>
+And then for the room "<tt>rm_gameover</tt>" case:
+
+<p class="code">
+<br>case rm_gameover:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;draw_set_halign(fa_center);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var c = c_red;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;draw_text_transformed_colour(room_width / 2, 150, "GAME OVER", 3, 3, 0, c, c, c, c, 1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;draw_text(room_width / 2, 250, "FINAL SCORE: " + string(score));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;draw_text(room_width / 2, 300, "PRESS ENTER TO RESTART");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;draw_set_halign(fa_left);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+</p>
+
+<p>
+Click the "Next" button to continue...
+
+
+<p>
+<br>
+</p>
+<p>
+  </div>
+
+  <div class="footer">
+    <div class="buttons">
+		<div class="clear">
+			<div style="float:left">
+				<a href="page04.html"  class="prev">
+				<div id="button-prev"></div>
+				</a>
+			</div>
+			<div style="float:right">
+				<a href="page06.html" class="next">
+					<div id="button-next"></div>
+				</a>
+			</div>
+		</div>
+    </div>
+    <h5>&copy; Copyright YoYo Games Ltd. 2019 All Rights Reserved</h5>
+  </div>
+
+</body>
+</html>

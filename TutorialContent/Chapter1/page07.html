@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>GameMaker Tutorial</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" title="style" charset="UTF-8"/>
+		<script type="text/javascript">
+			var changePage = function(){
+				var newPage = document.getElementById("page-select");
+				//alert(newPage.value);
+				window.location.replace(newPage.value);
+				}
+		</script>
+	</head>
+<body>
+
+<h2>Tutorial - Space Rocks</h2>
+	<div class="head">
+		<select id="page-select" onChange="changePage()">
+			<optgroup label="Chapter 1 - Setup And Moving">
+				<option style="font-weight:bold;" value="page07.html">Wrap The Room</option>
+				<option value="page08.html">Asteroids</option>
+				<option value="page01.html">What We Need</option>
+				<option value="page02.html">Making Sprites</option>
+				<option value="page03.html">Making Objects</option>
+				<option value="page04.html">Editing Rooms</option>
+				<option value="page05.html">Game Logic</option>
+				<option value="page06.html">Moving</option>
+			</optgroup>
+				<option style="font-weight:bold;" value="../index.html">Introduction</option>
+				<option style="font-weight:bold;" value="../Chapter2/page01.html">Chapter 2 - Attacking and Collisions</option>
+				<option style="font-weight:bold;" value="../Chapter3/page01.html">Chapter 3 - Score, Lives and Effects</option>
+				<option style="font-weight:bold;" value="../Chapter4/page01.html">Chapter 4 - Sound Effects and Polish</option>
+		  </optgroup>
+		</select>
+	</div>
+<!--<h5 style="color: #ffffff; text-align:left; font-size:1em;">Starting A New Project</h5>-->
+<div class="body-scroll">
+
+<p>
+Testing the game, you likely noticed an issue: the ship can go out of sight beyond the room! This isn't very much fun and certainly not what we want to happen. Instead, we want the ship to "wrap around" the room, so when it goes out one side it will appear again on the opposite.
+
+<p>
+We could add in some code to check the <tt>x</tt> and <tt>y</tt> position and then move the player instance ourselves, but there is an easier way...
+
+<p>
+We're going to use another function from the GameMaker Language, <a href="gms2tutorials:///ShowHelp?tag=motion_add"><tt>move_wrap()</tt></a>. This function permits you wrap horizontally and/or vertically, as well as set a margin for wrapping to occur in., and we'll place it after all the other code in the "<tt>obj_ship</tt>" <b>Step Event</b>:
+
+<p class="code">
+move_wrap(true, true, 0);
+</p>
+
+<p>
+This will wrap the ship around the room along both the horizontal and vertical axis. You can test the room now and see what happens!
+
+<p>
+<img class="center" src="../Images/C2_07_01_MoveWrap.gif" alt="Wrapping The Ship Around The Room">
+
+<p>
+That's working okay, but there is a visible error as the ship reaches the edge of the screen. Because we have set the wrap margin to 0, the wrapping will occur the <i>moment</i> the player ship <tt>x</tt> or <tt>y</tt> position leaves the room. This means that the ship can be seen to "disappear" and then just as abruptly appear on the other side of the room. To resolve this we need to set the margin to a different value:
+
+<p class="code">
+move_wrap(true, true, sprite_width / 2);
+</p>
+
+<p>
+Here we use another instance variable, <a href="gms2tutorials:///ShowHelp?tag=sprite_width"><tt>sprite_width</tt></a>, and set the wrap margin to be <i>half</i> the width of the sprite. This means that the instance will not be considered out of the room and be wrapped if it's not gone at least half the sprite width outside. So, since our sprite is 32px wide (and tall), it won't be wrapped until the position is greater than 16 pixels outside the room bounds. If the instance is moving right, for example, it will wrap when the <tt>x</tt> position is greater than 516 (room width is 500 plus half the sprite width which is 16).
+
+<p>
+If you test it again, you'll see that the wrapping looks much better.
+
+<p>
+With the player ship movement completed, let's go ahead and get the asteroids moving too.
+
+<p>
+Click the "Next" button to continue...
+
+
+<p>
+<br>
+</p>
+<p>
+  </div>
+
+  <div class="footer">
+    <div class="buttons">
+		<div class="clear">
+			<div style="float:left">
+				<a href="page06.html"  class="prev">
+				<div id="button-prev"></div>
+				</a>
+			</div>
+			<div style="float:right">
+				<a href="page08.html" class="next">
+					<div id="button-next"></div>
+				</a>
+			</div>
+		</div>
+    </div>
+    <h5>&copy; Copyright YoYo Games Ltd. 2019 All Rights Reserved</h5>
+  </div>
+
+</body>
+</html>

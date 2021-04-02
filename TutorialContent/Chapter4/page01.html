@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>GameMaker Tutorial</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" title="style" charset="UTF-8"/>
+		<script type="text/javascript">
+			var changePage = function(){
+				var newPage = document.getElementById("page-select");
+				//alert(newPage.value);
+				window.location.replace(newPage.value);
+				}
+		</script>
+	</head>
+<body>
+
+<h2>Tutorial - Space Rocks</h2>
+	<div class="head">
+		<select id="page-select" onChange="changePage()">
+			<optgroup label="Chapter 4 - Sound Effects and Polish">
+				<option style="font-weight:bold;" value="page01.html">Spawning Asteroids</option>
+				<option value="page02.html">Adding Sounds</option>
+				<option value="page03.html">Playing Sounds</option>
+				<option value="page04.html">Final Touches</option>
+				<option value="page05.html">Summary</option>
+			</optgroup>
+				<option style="font-weight:bold;" value="../index.html">Introduction</option>
+				<option style="font-weight:bold;" value="../Chapter1/page01.html">Chapter 1 - Getting Started</option>
+				<option style="font-weight:bold;" value="../Chapter2/page01.html">Chapter 2 - Attacking and Collisions</option>
+				<option style="font-weight:bold;" value="../Chapter3/page01.html">Chapter 3 - Score, Lives and Effects</option>
+		  </optgroup>
+		</select>
+	</div>
+<!--<h5 style="color: #ffffff; text-align:left; font-size:1em;">Starting A New Project</h5>-->
+<div class="body-scroll">
+
+<p>
+In this final chapter we're going to be looking at making the game a bit more polished and interesting for the player.
+
+<div class="note">
+	<b>NOTE:</b> If you have problems seeing the images in this tutorial, you can expand the tutorial window by dragging the edge into the IDE.<br><br>
+	<b>NOTE:</b> If you close the accompanying video then you can get it back by clicking <a href='gms2tutorials:///SetVideoPosition?index=4'>here</a>
+</div>
+
+<p>
+To start with, we're going to change how the asteroids are created, so open the room "<tt>rm_game</tt>" and remove all the instances of the object "<tt>obj_asteroid</tt>":
+
+<p>
+<img class="center" src="../Images/C5_01_01_RemoveRocks.gif" alt="Remove Asteroids From Game Room">
+
+<p>
+You can remove an instance by clicking <img style="vertical-align:middle" src="../Icon_LMB.png"> on it to select it and then using the <img style="vertical-align:middle" src="../Icon_Delete.png"> key.
+
+<p>
+With that done, we go back to our controller "<tt>obj_game</tt>" and add a <b>Room Start</b> event:
+
+<p>
+<img class="center" src="../Images/C5_01_02_RoomStart.png" alt="Room Start Event">
+
+<p>
+This event will be run at the start of every room, so our persistent object will trigger this event each time a new room is entered. In this event we add the following code:
+
+<p class="code">
+if (room == rm_game)<br>
+{<br>
+repeat(6)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var xx = choose(irandom_range(0, room_width * 0.3), irandom_range(room_width * 0.7, room_width));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;var yy = choose(irandom_range(0, room_height * 0.3), irandom_range(room_height * 0.7, room_height));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;instance_create_layer(xx, yy, "Instances", obj_asteroid);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+alarm[0] = 60;<br>
+}<br>
+</p>
+
+<p>
+You should know at this point what each of the functions used here does individually, but together what they are doing is generating an x/y position within the room that is limited to only the corners of the room, as illustrated here:
+
+<p>
+<img class="center" src="../Images/C5_01_03_Corners.png" alt="Asteroids Spawning In Corners">
+
+<p>
+This gives the player the best possible starting circumstances as there will be no asteroids created near them. We now need to continue to create asteroids as the player progresses and destroys them, otherwise there'll quickly be no asteroids left for them to shoot at, which is why we set the <a href="gms2tutorials:///ShowHelp?tag=alarm"><tt>alarm</tt></a> instance variable. An alarm is an event that will be triggered some time after it is set, and it is set using the <tt>alarm</tt> variable. In this case we are setting the <b>Alarm 0 Event</b> to be triggered 60 steps after we set it.
+
+<p>
+Add the <b>Alarm 0 Event</b> to the object now:
+
+<p>
+<img class="center" src="../Images/C5_01_04_Alarm0Event.png" alt="The Alarm[0] Event">
+
+<p>
+In this event, we're going to spawn the asteroids not in the corner of the room, but at the boundaries of the room. This will make it a lot less obvious to the player when they are created. For this to work we need to choose either a random position along the x-axis and a value for y of either 0 or the room height, or a value of either 0 or the room width for x and a random value for y. The following code does just that, so add it into the <b>Alarm 0</b> event:
+
+<p class="code">
+if (choose(0,1) == 0)<br>
+{<br>
+var xx = choose(0, room_width);<br>
+var yy = irandom_range(0, room_height);<br>
+}<br>
+else<br>
+{<br>
+var xx = irandom_range(0, room_width);<br>
+var yy = choose(0, room_height);<br>
+}<br>
+</p>
+
+<p>
+We also need to add in the code to spawn the asteroid and also to <i>reset</i> the alarm so that it will lopp and continually create asteroids:
+
+<p class="code">
+instance_create_layer(xx, yy, "instances", obj_asteroid);<br>
+alarm[0] = 4 * room_speed;<br>
+</p>
+
+<p>
+To set the alarm we have used the <a href="gms2tutorials:///ShowHelp?tag=room_speed"><tt>room_speed</tt></a> global variable. This variable holds the number of steps the room will perform in a second (the game speed), which is what we set right at the start of this tutorial: 60FPS. So, by setting the alarm to 4 * <tt>room_speed</tt> we are setting it to trigger again in 4 seconds.
+
+<p>
+There is one problem with this event, however... Because the object "<tt>obj_game</tt>" is persistent and the alarm is always reset, we would end up with asteroids in rooms other than the game room, since the alarm will be running even after the player has won or lost. To avoid this, add this code at the <i>start</i> of the code block, before the code given above:
+
+<p class="code">
+if (room != rm_game)<br>
+{<br>
+exit;<br>
+}<br>
+</p>
+
+<p>
+Using "<tt>!=</tt>" in the above code is checking to see if something is <b>not</b> equal to the given value ("<tt>!</tt>" means "not"), so if the current room is <b>not</b> the game room, the rest of the event will be skipped (the <a href="gms2tutorials:///ShowHelp?tag=exit"><tt>exit</tt></a> statement will end the event that it is called in immediately, so any code after it will not be run).
+
+<p>
+If you run the game now and wait a few seconds you should see that asteroids are spawning constantly around the room edges.
+
+<p>
+Click "Next" to continue...
+
+
+<p>
+<br>
+</p>
+<p>
+  </div>
+
+  <div class="footer">
+    <div class="buttons">
+		<div class="clear">
+			<div style="float:left">
+				<a href="../Chapter4/page06.html"  class="prev">
+				<div id="button-prev"></div>
+				</a>
+			</div>
+			<div style="float:right">
+				<a href="page02.html" class="next">
+					<div id="button-next"></div>
+				</a>
+			</div>
+		</div>
+    </div>
+    <h5>&copy; Copyright YoYo Games Ltd. 2019 All Rights Reserved</h5>
+  </div>
+
+</body>
+</html>

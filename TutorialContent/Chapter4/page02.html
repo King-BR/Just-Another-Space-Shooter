@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>GameMaker Tutorial</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" title="style" charset="UTF-8"/>
+		<script type="text/javascript">
+			var changePage = function(){
+				var newPage = document.getElementById("page-select");
+				//alert(newPage.value);
+				window.location.replace(newPage.value);
+				}
+		</script>
+	</head>
+<body>
+
+<h2>Tutorial - Space Rocks</h2>
+	<div class="head">
+		<select id="page-select" onChange="changePage()">
+			<optgroup label="Chapter 4 - Sound Effects and Polish">
+				<option style="font-weight:bold;" value="page02.html">Adding Sounds</option>
+				<option value="page03.html">Playing Sounds</option>
+				<option value="page04.html">Final Touches</option>
+				<option value="page05.html">Summary</option>
+				<option value="page01.html">Spawning Asteroids</option>
+			</optgroup>
+				<option style="font-weight:bold;" value="../index.html">Introduction</option>
+				<option style="font-weight:bold;" value="../Chapter1/page01.html">Chapter 1 - Getting Started</option>
+				<option style="font-weight:bold;" value="../Chapter2/page01.html">Chapter 2 - Attacking and Collisions</option>
+				<option style="font-weight:bold;" value="../Chapter3/page01.html">Chapter 3 - Score, Lives and Effects</option>
+		  </optgroup>
+		</select>
+	</div>
+<!--<h5 style="color: #ffffff; text-align:left; font-size:1em;">Starting A New Project</h5>-->
+<div class="body-scroll">
+
+<p>
+The time has come to add sounds to our game, but before we get on with that, take a moment to reset the <tt>score</tt> and <tt>lives</tt> variables in the <b>Create Event</b> of "<tt>obj_game</tt>". These should be set to 0 and 3 respectively, as we no longer need them set to other values for testing:
+
+<p>
+<img class="center" src="../Images/C5_02_01_ResetVars.png" alt="Restore Variables To Original Values">
+
+<p>
+We'll now need some sounds for our game to use...
+
+<p>
+The sounds can be <tt>*.wav</tt>, <tt>*.ogg</tt> or <tt>*.mp3</tt> format and have a "retro" sound to them. There are a number of different programs available free online for making sound effects and music for you to make your own sounds with, but note that the tutorial comes with a few to get you started as well in the <b>TutorialResources</b> folder, within the project files. If you open the file explorer to load a sound, it should open on that folder location where you can find the sounds used in the "<b>SFX</b>" sub-folder. If you have any issues, you can also find the sounds <a href="gms2tutorials:///ShowFiles?path=../TutorialResources/SFX">here</a>.
+
+<div class="note">
+	<b>NOTE</b>: In general you'd use <tt>wav</tt> for short sound effects, and <tt>mp3</tt> or <tt>ogg</tt> for music or longer, looping sounds. This tutorial uses <tt>ogg</tt> format sounds simply because they keep the download size small.
+</div>
+
+<p>
+Once you have located the example sounds or created your own, we need to add them to our project. Create a <b>Sound</b> in the resource tree and this will open up the <b>Sound Editor</b>, ready for you to add your first sound:
+
+<p>
+<img class="center" src="../Images/C5_02_02_SoundEditor.png" alt="The Sound Editor">
+
+<p>
+The sounds we'll need are as follows:
+
+<p>
+<ul>
+	<li>"<tt>msc_song</tt>" - Some kind of background music
+	<li>"<tt>snd_die</tt>" - A sound for the asteroid or the player exploding
+	<li>"<tt>snd_win</tt>" - A sound for the player winning
+	<li>"<tt>snd_lose</tt>" - A sound for the player losing
+	<li>"<tt>snd_zap</tt>" - A sound for the player shooting
+</ul>
+
+<p>
+Go ahead and create each of those sounds now (naming them as shown in the list above) and give them an appropriate sound to use. When you're finished your resource tree should look like this:
+
+<p>
+
+<img class="center" src="../Images/C5_02_03_SoundResources.png" alt="Sound Resources In The Resource Tree">
+
+<p>
+
+
+<p>
+Click the "Next" button to see how to get your game to play these sounds...
+
+
+<p>
+<br>
+</p>
+<p>
+  </div>
+
+  <div class="footer">
+    <div class="buttons">
+		<div class="clear">
+			<div style="float:left">
+				<a href="page01.html"  class="prev">
+				<div id="button-prev"></div>
+				</a>
+			</div>
+			<div style="float:right">
+				<a href="page03.html" class="next">
+					<div id="button-next"></div>
+				</a>
+			</div>
+		</div>
+    </div>
+    <h5>&copy; Copyright YoYo Games Ltd. 2019 All Rights Reserved</h5>
+  </div>
+
+</body>
+</html>

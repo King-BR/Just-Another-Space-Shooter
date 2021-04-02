@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>GameMaker Tutorial</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" title="style" charset="UTF-8"/>
+		<script type="text/javascript">
+			var changePage = function(){
+				var newPage = document.getElementById("page-select");
+				//alert(newPage.value);
+				window.location.replace(newPage.value);
+				}
+		</script>
+	</head>
+<body>
+
+<h2>Tutorial - Space Rocks</h2>
+	<div class="head">
+		<select id="page-select" onChange="changePage()">
+			<optgroup label="Chapter 3 - Score, Lives and Effects">
+				<option style="font-weight:bold;" value="page06.html">Game Control</option>
+				<option value="page01.html">Controller Objects</option>
+				<option value="page02.html">Fonts</option>
+				<option value="page03.html">Setting Score and Lives</option>
+				<option value="page04.html">Rooms</option>
+				<option value="page05.html">Room Text</option>
+			</optgroup>
+				<option style="font-weight:bold;" value="../index.html">Introduction</option>
+				<option style="font-weight:bold;" value="../Chapter4/page01.html">Chapter 4 - Sound Effects and Polish</option>
+				<option style="font-weight:bold;" value="../Chapter1/page01.html">Chapter 1 - Getting Started</option>
+				<option style="font-weight:bold;" value="../Chapter2/page01.html">Chapter 2 - Attacking and Collisions</option>
+		  </optgroup>
+		</select>
+	</div>
+<!--<h5 style="color: #ffffff; text-align:left; font-size:1em;">Starting A New Project</h5>-->
+<div class="body-scroll">
+
+<p>
+Most of the text we've just added can't be seen, as we haven't actually coded anything into change between the different rooms. We'll do that now, starting with detecting the press of the <img style="vertical-align:middle" src="../Icon_Enter.png"> key to start/restart the game, depending on the room the player is in.
+
+<p>
+In the object "<tt>obj_game</tt>", add a <b>Step Event</b>. This event will check for the <img style="vertical-align:middle" src="../Icon_Enter.png"> keypress and then run a <tt>switch</tt> on the <tt>room</tt> variable to see what action should be taken using the following code:
+
+<p class="code">
+if (keyboard_check_pressed(vk_enter))<br>
+{<br>
+switch(room)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;case rm_start:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;room_goto(rm_game);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;case rm_win:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;case rm_gameover:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;game_restart();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</p>
+
+<p>
+Here we use two new functions which are pretty self-explanatory: <a href="gms2tutorials:///ShowHelp?tag=room_goto"><tt>room_goto()</tt></a> which will end the current room and then go to the room given as its argument, and then <a href="gms2tutorials:///ShowHelp?tag=game_restart"><tt>game_restart()</tt></a>, which takes no arguments and will simply restart the game again, as if the player was running it for the first time. Note how we have the two room cases together there for the win and gameover states. As was mentioned previously, omitting a <tt>break</tt> means that the case detected will run, and then subsequent cases will run too until the end of the <tt>switch</tt> or a <tt>break</tt> is met. Here we use this behavior to our advantage to detect two values and run a single code block.
+
+<p>
+We want to add in some more code now to detect the "win" and "lose" conditions, which in the case of our game is going to be 1000 points for the score to win, or 0 lives to lose. So, we'll want to first check that the current room is the game room (we don't want to perform these checks in any other room), and then we want to check the <tt>lives</tt> and <tt>score</tt> variables, like this:
+<p class="code">
+if room == rm_game<br>
+{<br>
+if score &gt;= 1000<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;room_goto(rm_win);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+if lives &lt;= 0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;room_goto(rm_gameover);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+}<br>
+</p> 
+
+<p>
+We can quickly test this by opening up the <b>Create Event</b> of the "<tt>obj_game</tt>" and editing the score and lives to be 990 and 1 respectively:
+
+<p>
+<img class="center" src="../Images/C4_06_01_TestVars.png" alt="Set Variables For Testing">
+
+<p>
+And now if we test the game we will get the "Win" and "Game Over" screens depending on whether we shoot an asteroid or crash into it:
+
+<p>
+<img class="center" src="../Images/C4_06_02_GameStates.gif" alt="Game States">
+
+<p>
+
+<p>
+Click the "Next" button to continue on to the last chapter, where we'll add some polish to the overall gameplay...
+
+
+<p>
+<br>
+</p>
+<p>
+  </div>
+
+  <div class="footer">
+    <div class="buttons">
+		<div class="clear">
+			<div style="float:left">
+				<a href="page05.html"  class="prev">
+				<div id="button-prev"></div>
+				</a>
+			</div>
+			<div style="float:right">
+				<a href="../Chapter4/page01.html" class="next">
+					<div id="button-next"></div>
+				</a>
+			</div>
+		</div>
+    </div>
+    <h5>&copy; Copyright YoYo Games Ltd. 2019 All Rights Reserved</h5>
+  </div>
+
+</body>
+</html>

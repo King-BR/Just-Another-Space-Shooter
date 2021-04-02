@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>GameMaker Tutorial</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" title="style" charset="UTF-8"/>
+		<script type="text/javascript">
+			var changePage = function(){
+				var newPage = document.getElementById("page-select");
+				//alert(newPage.value);
+				window.location.replace(newPage.value);
+				}
+		</script>
+	</head>
+<body>
+
+<h2>Tutorial - Space Rocks</h2>
+	<div class="head">
+		<select id="page-select" onChange="changePage()">
+			<optgroup label="Chapter 3 - Score, Lives and Effects">
+				<option style="font-weight:bold;" value="page03.html">Setting Score and Lives</option>
+				<option value="page04.html">Rooms</option>
+				<option value="page05.html">Room Text</option>
+				<option value="page06.html">Game Control</option>
+				<option value="page01.html">Controller Objects</option>
+				<option value="page02.html">Fonts</option>
+			</optgroup>
+				<option style="font-weight:bold;" value="../index.html">Introduction</option>
+				<option style="font-weight:bold;" value="../Chapter4/page01.html">Chapter 4 - Sound Effects and Polish</option>
+				<option style="font-weight:bold;" value="../Chapter1/page01.html">Chapter 1 - Getting Started</option>
+				<option style="font-weight:bold;" value="../Chapter2/page01.html">Chapter 2 - Attacking and Collisions</option>
+		  </optgroup>
+		</select>
+	</div>
+<!--<h5 style="color: #ffffff; text-align:left; font-size:1em;">Starting A New Project</h5>-->
+<div class="body-scroll">
+
+<p>
+We can now look at updating the <tt>score</tt> and <tt>lives</tt> values as we play. For that, open up the object "<tt>obj_bullet</tt>" and go into the <b>Collision Event</b> with the object "<tt>obj_asteroid</tt>"
+
+<p>
+<img class="center" src="../Images/C4_03_01_BulletObject.png" alt="The Bullet Object Collision Event">
+
+<p>
+At the top of the code block, before everything else we're simply going to add in the following:
+
+<p class="code">
+score += 10;<br>
+</p>
+
+<p>
+Since the <tt>score</tt> variable is global in scope, if we add to it from any instance then it will be updated for all instances, meaning that if we run the game now, we'd see the score value being drawn to the screen go up as we destroyed the asteroids. However, before testing this, let's deal with the player lives too.
+
+<div class="note">
+	<b>NOTE</b>: The way we add 10 here looks different to the way we've shown previously, ie: <tt>score = score + 10</tt>. This is just to show that using <tt>variable += value</tt> is <i>exactly</i> the same as doing <tt>variable = variable + value</tt>, and you can use either method to add to a variable, depending on your own programing style.
+</div>
+
+<p>
+Open the player ship object "<tt>obj_ship</tt>", and go to the <b>Collision Event</b> with the object "<tt>obj_asteroid</tt>":
+
+<p>
+<img class="center" src="../Images/C4_03_02_ShipObject.png" alt="The Ship Object Collision Event">
+
+<p>
+Here we're going to deduct 1 from the lives, so go ahead and add the following code <i>before</i> the rest of the code in the event:
+
+<p class="code">
+lives -= 1;<br>
+</p>
+
+<p>
+This will subtract 1 from the <tt>lives</tt> variable (and is the same as doing <tt>lives = lives - 1</tt>).
+
+<p>
+If you test the room now you'll see the score go up when you shoot the asteroids and if the player ship collides with an asteroid the lives will go down. There's still work to be done here, but we'll come back to it later after we've set up some more rooms.
+
+<p>
+Click the "Next" button to continue...
+
+
+<p>
+<br>
+</p>
+<p>
+  </div>
+
+  <div class="footer">
+    <div class="buttons">
+		<div class="clear">
+			<div style="float:left">
+				<a href="page02.html"  class="prev">
+				<div id="button-prev"></div>
+				</a>
+			</div>
+			<div style="float:right">
+				<a href="page04.html" class="next">
+					<div id="button-next"></div>
+				</a>
+			</div>
+		</div>
+    </div>
+    <h5>&copy; Copyright YoYo Games Ltd. 2019 All Rights Reserved</h5>
+  </div>
+
+</body>
+</html>

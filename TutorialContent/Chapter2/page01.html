@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>GameMaker Tutorial</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" title="style" charset="UTF-8"/>
+		<script type="text/javascript">
+			var changePage = function(){
+				var newPage = document.getElementById("page-select");
+				//alert(newPage.value);
+				window.location.replace(newPage.value);
+				}
+		</script>
+	</head>
+<body>
+
+<h2>Tutorial - Space Rocks</h2>
+	<div class="head">
+		<select id="page-select" onChange="changePage()">
+			<optgroup label="Chapter 2 - Attacking and Collisions">
+				<option style="font-weight:bold;" value="page01.html">Collision Masks</option>
+				<option value="page02.html">Collisions</option>
+				<option value="page03.html">Shooting</option>
+				<option value="page04.html">More Collisions</option>
+				<option value="page05.html">Debris</option>
+				<option value="page06.html">Clean Up</option>
+			</optgroup>
+				<option style="font-weight:bold;" value="../index.html">Introduction</option>
+				<option style="font-weight:bold;" value="../Chapter3/page01.html">Chapter 3 - Score, Lives and Effects</option>
+				<option style="font-weight:bold;" value="../Chapter4/page01.html">Chapter 4 - Sound Effects and Polish</option>
+				<option style="font-weight:bold;" value="../Chapter1/page01.html">Chapter 1 - Getting Started</option>
+		  </optgroup>
+		</select>
+	</div>
+<!--<h5 style="color: #ffffff; text-align:left; font-size:1em;">Starting A New Project</h5>-->
+<div class="body-scroll">
+
+<p>
+In this chapter, we're going to add in bullets and have collisions for them with the asteroids, as well as collisions for the asteroids with the player ship.
+
+<div class="note">
+	<b>NOTE:</b> If you have problems seeing the images in this tutorial, you can expand the tutorial window by dragging the edge into the IDE.<br><br>
+	<b>NOTE:</b> If you close the accompanying video then you can get it back by clicking <a href='gms2tutorials:///SetVideoPosition?index=2'>here</a>
+</div>
+
+<p>
+Since we haven't defined any bullet objects or sprites, let's first deal with the collision between the player ship object "<tt>obj_ship</tt>" and the asteroid objects "<tt>obj_asteroid</tt>". Now, collisions in <i>GameMaker Studio 2</i> are based off of what is called the <b>collision mask</b>, which is defined in the <b>Sprite Editor</b>:
+
+<p>
+<img class="center" src="../Images/C3_01_01_CollisionMask.png" alt="Collision Masks In The Sprite Editor">
+
+<p>
+This "mask" is the area that will be used by <i>GameMaker Studio 2</i> to detect collisions, so that two instances are considered "in collision" when their collision masks overlap, or a mouse click is detected when the mouse x/y position is inside the defined mask area. There are a number of different mask options to choose from, including the <b>mode</b> - whether the mask should be defined automatically or manually - and the <b>type</b> - the shape that should be used to generate the mask.
+
+<p>
+If you look through the <b>type</b> options, you'll see that there is a <b>precise</b> option. This makes the collision mask "pixel perfect", so that transparent areas will be ignored. You might think that this is the best option of all, as it means that all your collisions will be realistic, but it's not. Calculating collisions is costly at the best of times, and using a precise pixel-perfect check for everything would increase the cost of doing collisions greatly. This is why we generally use rectangular collision masks, as they are relatively fast to check and deal with.
+
+<p>
+ That said, for our player object, we'll be using a <b>Diamond</b> collision mask. This is still a faster mask type than "precise", and has the benefit that is fits the "nose" of our ship sprite nicely. So, select the <b>diamond</b> type now, and set the <b>mode</b> not <b>manual</b>, then position the mask over the ship sprite, as shown below:
+ 
+<p>
+<img class="center" src="../Images/C3_01_02_DiamondMask.gif" alt="Adding A Diamond Mask Type">
+
+<p>
+You'll notice that the "wings" of the player ship sprite aren't covered by the mask, which means that they will <i>not</i> detect collisions. In general, this is fine and pretty much normal for video games. Players don't <i>want</i> every little thing to kill them, and as long as the collision mask is consistent and they can discover what area is okay and what area isn't, then it's fine. What would be worse would be a rectangular collision mask, as some things would be considered in a collision when <i>visually</i> they aren't, and so the player would feel cheated.
+
+<p>
+With that done, let's open each of the asteroid sprites and set the collision mask for them. We don't need anything fancy here, so leave the <b>mode</b> on <b>Automatic</b> and set the <b>type</b> to <b>ellipse</b>:
+<p>
+<img class="center" src="../Images/C3_01_03_AsteroidMask.png" alt="An Asteroid Collision Mask">
+
+<p>
+When you've given each asteroid sprite an ellipse collision mask, we can move on and code the collisions themselves...
+
+<p>
+Click the "Next" button to continue...
+
+
+<p>
+<br>
+</p>
+<p>
+  </div>
+
+  <div class="footer">
+    <div class="buttons">
+		<div class="clear">
+			<div style="float:left">
+				<a href="../Chapter2/page08.html"  class="prev">
+				<div id="button-prev"></div>
+				</a>
+			</div>
+			<div style="float:right">
+				<a href="page02.html" class="next">
+					<div id="button-next"></div>
+				</a>
+			</div>
+		</div>
+    </div>
+    <h5>&copy; Copyright YoYo Games Ltd. 2019 All Rights Reserved</h5>
+  </div>
+
+</body>
+</html>
