@@ -108,16 +108,10 @@
   "IncludedFiles": [],
   "MetaData": {
     "IDEVersion": "2.3.2.556",
-    "TutorialProject": "true",
-    "TutorialName": "Space Rocks - GML",
-    "TutorialStartPage": "index.html",
-    "TutorialVideoPage": "Tutorial_Video.html",
-    "TutorialVideoLink": "",
-    "TutorialContent": "TutorialContent",
-    "TutorialResources": "TutorialResources",
+    "TutorialProject": "false"
   },
   "resourceVersion": "1.4",
-  "name": "SpaceRocksGML_Tutorial_2",
+  "name": "Just Another Space Shooter",
   "tags": [],
   "resourceType": "GMProject",
 }
