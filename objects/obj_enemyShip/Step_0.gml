@@ -10,6 +10,7 @@ if (instance_exists(obj_ship)) {
 				audio_play_sound(snd_zap, 1, false);
 				var b = instance_create_layer(x, y, "Instances", obj_enemyBullet);
 				b.direction = image_angle;
+				b.image_angle = image_angle
 				laserCooldown = 1;
 				alarm[0] = room_speed/3;
 			}

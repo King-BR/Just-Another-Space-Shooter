@@ -50,17 +50,7 @@ switch(room) {
 		draw_text_transformed_colour(room_width / 2, room_height / 12,
 @"JUST ANOTHER
 SPACE SHOOTER", 3, 3, 0, c, c, c, c, 1);
-		
-		if(global.mobile) {
-			draw_text(room_width/2, 220,
-@"Score 1,000 points to win!
-
-TOUCH: shoot
-JOYSTICK: move
-
->>PRESS ANYWHERE TO START<<");
-		} else {
-			draw_text(room_width/2, 220, 
+		draw_text(room_width/2, 220, 
 @"Score 1,000 points to win!
 
 UP: speed up
@@ -71,7 +61,6 @@ SPACE: shoot
 P: pause/unpause
 
 >> PRESS ENTER TO START <<");
-		}
 		draw_set_halign(fa_left);
 		break;
 	}
@@ -79,11 +68,7 @@ P: pause/unpause
 		draw_set_halign(fa_center);
 		var c = c_lime;
 		draw_text_transformed_colour(room_width / 2, room_height / 6, "YOU WON!", 3, 3, 0, c, c, c, c, 1);
-		if(global.mobile) {
-			draw_text(room_width / 2, room_height / 3, ">> PRESS ANYWHERE TO RESTART <<");
-		} else {
-			draw_text(room_width / 2, room_height / 3, ">> PRESS ENTER TO RESTART <<");
-		}
+		draw_text(room_width / 2, room_height / 3, ">> PRESS ENTER TO RESTART <<");
 		draw_set_halign(fa_left);
 		break;
 	}
@@ -92,11 +77,7 @@ P: pause/unpause
 		var c = c_red;
 		draw_text_transformed_colour(room_width / 2, room_height / 7, "GAME OVER", 3, 3, 0, c, c, c, c, 1);
 		draw_text(room_width / 2, room_height / 5, "FINAL SCORE: " + string(score));
-		if(global.mobile) {
-			draw_text(room_width / 2, room_height / 3, ">> PRESS ANYWHERE TO RESTART <<");
-		} else {
-			draw_text(room_width / 2, room_height / 3, ">> PRESS ENTER TO RESTART <<");
-		}
+		draw_text(room_width / 2, room_height / 3, ">> PRESS ENTER TO RESTART <<");
 		draw_set_halign(fa_left);
 		break;
 	}
