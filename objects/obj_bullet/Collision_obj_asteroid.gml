@@ -4,7 +4,7 @@ audio_play_sound(snd_die, 1, false);
 with(other) {
 	instance_destroy();
 	
-	if(sprite_index == spr_asteroid_huge) {
+	if(sprite_index == spr_asteroid_huge || sprite_index == spr_asteroid_huge2) {
 		repeat(2) {
 			var new_asteroid = instance_create_layer(x, y, "Instances", obj_asteroid);
 			new_asteroid.sprite_index = spr_asteroid_med;
