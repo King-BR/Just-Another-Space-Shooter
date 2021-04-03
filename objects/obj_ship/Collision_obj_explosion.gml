@@ -13,6 +13,6 @@ lives--;
 
 if(lives > 0) {
 	immortal = 1;
-	alarm[1] = 3 * room_speed;
 	sprite_index = spr_shipProtection;
+	alarm[1] = 3 * room_speed;
 }

@@ -16,7 +16,7 @@ with(other) {
 
 	if(lives > 0) {
 		immortal = 1;
-		alarm[1] = 2 * room_speed + 30;
 		sprite_index = spr_shipProtection;
+		alarm[1] = 2 * room_speed + 30;
 	}
 }

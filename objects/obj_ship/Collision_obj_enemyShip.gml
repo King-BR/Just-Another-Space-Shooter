@@ -24,6 +24,7 @@ audio_play_sound(snd_die, 1, false);
 if(shields > 0) {
 	shields--;
 	immortal = 1;
+	sprite_index = spr_shipProtection;
 	alarm[1] = 2 * room_speed;
 	exit;
 }

@@ -70,7 +70,7 @@ S: stop moving
 SPACE: shoot
 P: pause/unpause
 
->>PRESS ENTER TO START<<");
+>> PRESS ENTER TO START <<");
 		}
 		draw_set_halign(fa_left);
 		break;
@@ -78,11 +78,11 @@ P: pause/unpause
 	case rm_win: {
 		draw_set_halign(fa_center);
 		var c = c_lime;
-		draw_text_transformed_colour(room_width / 2, 200, "YOU WON!", 3, 3, 0, c, c, c, c, 1);
+		draw_text_transformed_colour(room_width / 2, room_height / 6, "YOU WON!", 3, 3, 0, c, c, c, c, 1);
 		if(global.mobile) {
-			draw_text(room_width / 2, 300, "PRESS ANYWHERE TO RESTART");
+			draw_text(room_width / 2, room_height / 3, ">> PRESS ANYWHERE TO RESTART <<");
 		} else {
-			draw_text(room_width / 2, 300, "PRESS ENTER TO RESTART");
+			draw_text(room_width / 2, room_height / 3, ">> PRESS ENTER TO RESTART <<");
 		}
 		draw_set_halign(fa_left);
 		break;
@@ -90,12 +90,12 @@ P: pause/unpause
 	case rm_gameover: {
 		draw_set_halign(fa_center);
 		var c = c_red;
-		draw_text_transformed_colour(room_width / 2, 150, "GAME OVER", 3, 3, 0, c, c, c, c, 1);
-		draw_text(room_width / 2, 250, "FINAL SCORE: " + string(score));
+		draw_text_transformed_colour(room_width / 2, room_height / 7, "GAME OVER", 3, 3, 0, c, c, c, c, 1);
+		draw_text(room_width / 2, room_height / 5, "FINAL SCORE: " + string(score));
 		if(global.mobile) {
-			draw_text(room_width / 2, 300, "PRESS ANYWHERE TO RESTART");
+			draw_text(room_width / 2, room_height / 3, ">> PRESS ANYWHERE TO RESTART <<");
 		} else {
-			draw_text(room_width / 2, 300, "PRESS ENTER TO RESTART");
+			draw_text(room_width / 2, room_height / 3, ">> PRESS ENTER TO RESTART <<");
 		}
 		draw_set_halign(fa_left);
 		break;
