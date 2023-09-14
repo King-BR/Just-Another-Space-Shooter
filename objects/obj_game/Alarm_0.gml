@@ -49,12 +49,12 @@ if(irandom_range(0, r2 * 10) >= 45) {
 		yy = choose(0, room_height);
 	}
 
-	instance_create_layer(xx, yy, "Instances", obj_enemyShip);
+	instance_create_layer(xx, yy, "Instances", obj_enemy_ship);
 }
 
 if(irandom_range(0, r2 * 10) >= 48) {
 	var margin = 30;
-	instance_create_layer(irandom_range(margin, room_width - margin), irandom_range(margin, room_height - margin), "Instances", obj_powerUp);
+	instance_create_layer(irandom_range(margin, room_width - margin), irandom_range(margin, room_height - margin), "Instances", obj_power_up);
 }
 
 alarm[0] = time * room_speed;

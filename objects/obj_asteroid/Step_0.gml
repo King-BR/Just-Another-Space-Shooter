@@ -1,1 +1,1 @@
-image_angle += 1;
+image_angle += image_angle_variation;

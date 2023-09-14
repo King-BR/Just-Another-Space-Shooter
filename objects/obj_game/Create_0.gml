@@ -6,3 +6,5 @@ paused_surf = -1;
 
 global.music = true;
 global.sound = true;
+
+randomize();

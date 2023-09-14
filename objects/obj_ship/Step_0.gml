@@ -20,9 +20,9 @@ if(keyboard_check(vk_space) && laserCooldown == 0) {
 	alarm[0] = room_speed/6;
 	laserCooldown = 1;
 	audio_play_sound(snd_zap, 1, false);
-	var inst = instance_create_layer(x, y, "Instances", obj_bullet);
-	inst.direction = image_angle;
-	inst.image_angle = image_angle;
+	var _inst = instance_create_layer(x, y, "Instances", obj_bullet);
+	_inst.direction = image_angle;
+	_inst.image_angle = image_angle;
 }
 
 if(keyboard_check(ord("S"))) {

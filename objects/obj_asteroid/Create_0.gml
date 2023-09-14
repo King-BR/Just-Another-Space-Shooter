@@ -3,5 +3,7 @@ direction = irandom_range(0, 359);
 image_angle = irandom_range(0, 359);
 speed = 1;
 
+image_angle_variation = choose(0.5, 1, 1.5, 2);
+
 move_wrap(true, true, sprite_width/2);
 
