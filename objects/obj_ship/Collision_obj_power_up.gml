@@ -4,7 +4,7 @@ switch(other.sprite_index) {
 		break;
 	}
 	case spr_power_shield: {
-		shields++;
+		_shields++;
 		break;
 	}
 	default:
@@ -15,10 +15,10 @@ switch(other.sprite_index) {
 				break;
 			}
 			case 2: {
-				shields++;
+				_shields++;
 				break;
 			}
-			default: shields++;
+			default: _shields++;
 		}
 	}
 }

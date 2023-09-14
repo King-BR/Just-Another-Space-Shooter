@@ -4,22 +4,22 @@ switch(room) {
 		draw_text(20, 20, "SCORE: " + string(score));
 		draw_text(20, 40, "LIVES: ");
 		
-		var xx = 80;
+		var _xx = 80;
 		repeat(lives) {
-			draw_sprite(spr_heart, spr_heart, xx, 40);
-			xx += 20;
+			draw_sprite(spr_heart, spr_heart, _xx, 40);
+			_xx += 20;
 		}
 		
-		draw_text(20, 60, "SHIELDS: ");
-		var Shields = 0;
+		draw_text(20, 60, "Shields: ");
+		var _shields = 0;
 		with(obj_ship) {
-			Shields = shields;
+			_shields = _shields;
 		}
 		
-		xx = 80;
-		repeat(Shields) {
-			draw_sprite(spr_shield, spr_shield, xx, 60);
-			xx += 20;
+		_xx = 80;
+		repeat(_shields) {
+			draw_sprite(spr_shield, spr_shield, _xx, 60);
+			_xx += 20;
 		}
 		
 		if (paused == true) {
@@ -46,10 +46,10 @@ switch(room) {
 	}
 	case rm_start: {
 		draw_set_halign(fa_center);
-		var c = c_yellow;
+		var _c = c_yellow;
 		draw_text_transformed_colour(room_width / 2, room_height / 12,
 @"JUST ANOTHER
-SPACE SHOOTER", 3, 3, 0, c, c, c, c, 1);
+SPACE SHOOTER", 3, 3, 0, _c, _c, _c, _c, 1);
 		draw_text(room_width/2, 220, 
 @"Score 1,000 points to win!
 
@@ -66,16 +66,16 @@ P: pause/unpause
 	}
 	case rm_win: {
 		draw_set_halign(fa_center);
-		var c = c_lime;
-		draw_text_transformed_colour(room_width / 2, room_height / 6, "YOU WON!", 3, 3, 0, c, c, c, c, 1);
+		var _c = c_lime;
+		draw_text_transformed_colour(room_width / 2, room_height / 6, "YOU WON!", 3, 3, 0, _c, _c, _c, _c, 1);
 		draw_text(room_width / 2, room_height / 3, ">> PRESS ENTER TO RESTART <<");
 		draw_set_halign(fa_left);
 		break;
 	}
 	case rm_gameover: {
 		draw_set_halign(fa_center);
-		var c = c_red;
-		draw_text_transformed_colour(room_width / 2, room_height / 7, "GAME OVER", 3, 3, 0, c, c, c, c, 1);
+		var _c = c_red;
+		draw_text_transformed_colour(room_width / 2, room_height / 7, "GAME OVER", 3, 3, 0, _c, _c, _c, _c, 1);
 		draw_text(room_width / 2, room_height / 5, "FINAL SCORE: " + string(score));
 		draw_text(room_width / 2, room_height / 3, ">> PRESS ENTER TO RESTART <<");
 		draw_set_halign(fa_left);

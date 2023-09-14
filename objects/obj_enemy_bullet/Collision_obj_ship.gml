@@ -5,8 +5,8 @@ with(other) {
 	
 	if(immortal == 1) exit;
 	
-	if(shields > 0) {
-		shields--;
+	if(_shields > 0) {
+		_shields--;
 		immortal = 1;
 		alarm[1] = 2 * room_speed;
 		exit;

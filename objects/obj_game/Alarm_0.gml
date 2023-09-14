@@ -2,8 +2,8 @@ if (room != rm_game) {
 	exit;
 }
 
-var xx = 0;
-var yy = 0;
+var _xx = 0;
+var _yy = 0;
 
 var r1 = 1;
 var r2 = 3;
@@ -25,15 +25,15 @@ if(score >= 800) {
 
 repeat(irandom_range(r1, r2)) {
 	if (choose(0,1) == 0) {
-		xx = choose(0, room_width);
-		yy = irandom_range(0, room_height);
+		_xx = choose(0, room_width);
+		_yy = irandom_range(0, room_height);
 
 	} else {
-		xx = irandom_range(0, room_width);
-		yy = choose(0, room_height);
+		_xx = irandom_range(0, room_width);
+		_yy = choose(0, room_height);
 	}
 	
-	instance_create_layer(xx, yy, "instances", obj_asteroid);
+	instance_create_layer(_xx, _yy, "instances", obj_asteroid);
 }
 
 
@@ -41,15 +41,15 @@ repeat(irandom_range(r1, r2)) {
 
 if(irandom_range(0, r2 * 10) >= 45) {
 	if (choose(0,1) == 0) {
-		xx = choose(0, room_width);
-		yy = irandom_range(0, room_height);
+		_xx = choose(0, room_width);
+		_yy = irandom_range(0, room_height);
 
 	} else {
-		xx = irandom_range(0, room_width);
-		yy = choose(0, room_height);
+		_xx = irandom_range(0, room_width);
+		_yy = choose(0, room_height);
 	}
 
-	instance_create_layer(xx, yy, "Instances", obj_enemy_ship);
+	instance_create_layer(_xx, _yy, "Instances", obj_enemy_ship);
 }
 
 if(irandom_range(0, r2 * 10) >= 48) {

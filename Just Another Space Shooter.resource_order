@@ -3,7 +3,7 @@
   "ResourceOrderSettings": [
     {"name":"rm_gameover","order":3,"path":"rooms/rm_gameover/rm_gameover.yy",},
     {"name":"spr_bullet","order":4,"path":"sprites/spr_bullet/spr_bullet.yy",},
-    {"name":"spr_joystickBack","order":16,"path":"sprites/spr_joystickBack/spr_joystickBack.yy",},
+    {"name":"spr_joystick_back","order":16,"path":"sprites/spr_joystick_back/spr_joystick_back.yy",},
     {"name":"spr_background","order":24,"path":"sprites/spr_background/spr_background.yy",},
     {"name":"obj_enemy_ship","order":6,"path":"objects/obj_enemy_ship/obj_enemy_ship.yy",},
     {"name":"spr_enemy_ship","order":6,"path":"sprites/spr_enemy_ship/spr_enemy_ship.yy",},
@@ -13,7 +13,7 @@
     {"name":"spr_enemy_kamikaze_ship","order":18,"path":"sprites/spr_enemy_kamikaze_ship/spr_enemy_kamikaze_ship.yy",},
     {"name":"spr_enemy_bullet","order":7,"path":"sprites/spr_enemy_bullet/spr_enemy_bullet.yy",},
     {"name":"spr_debris","order":5,"path":"sprites/spr_debris/spr_debris.yy",},
-    {"name":"spr_joystickFront","order":15,"path":"sprites/spr_joystickFront/spr_joystickFront.yy",},
+    {"name":"spr_joystick_front","order":15,"path":"sprites/spr_joystick_front/spr_joystick_front.yy",},
     {"name":"spr_heart","order":9,"path":"sprites/spr_heart/spr_heart.yy",},
     {"name":"obj_explosion","order":10,"path":"objects/obj_explosion/obj_explosion.yy",},
     {"name":"spr_asteroid_huge","order":3,"path":"sprites/spr_asteroid_huge/spr_asteroid_huge.yy",},
