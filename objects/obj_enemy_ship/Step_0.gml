@@ -12,7 +12,7 @@ if (instance_exists(obj_ship)) {
 				b.direction = image_angle;
 				b.image_angle = image_angle
 				laserCooldown = 1;
-				alarm[0] = room_speed/3;
+				alarm[0] = room_speed/2;
 			}
 	
 			if (point_distance(x, y, _inst.x, _inst.y) > 200) {

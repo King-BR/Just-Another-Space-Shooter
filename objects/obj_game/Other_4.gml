@@ -4,6 +4,10 @@ if (room == rm_game) {
 		audio_stop_sound(msc_song);
 	}
 	
+	_time_survived = 0;
+	global._powerup_total = 0;
+	global._enemies_killed = 0;
+	
 	if(global.music)audio_play_sound(msc_song, 2, true);
 	
 	repeat(6) {

@@ -28,10 +28,10 @@ if (room == rm_game) {
 		alarm[0]++;
 		alarm[1]++;
 		audio_sound_gain(msc_song, 0.3, 0);
+	} else {
+		_time_survived++;
 	}
-}
 
-if (room == rm_game) {
 	if (score >= 1000) {
 		audio_play_sound(snd_win, 1, false);
 		room_goto(rm_win);

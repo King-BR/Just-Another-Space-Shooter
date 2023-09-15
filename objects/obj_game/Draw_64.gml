@@ -10,10 +10,10 @@ switch(room) {
 			_xx += 20;
 		}
 		
-		draw_text(20, 60, "Shields: ");
+		draw_text(20, 60, "SHIELDS: ");
 		var _shields = 0;
 		with(obj_ship) {
-			_shields = _shields;
+			_shields = shields;
 		}
 		
 		_xx = 80;
@@ -67,7 +67,12 @@ P: pause/unpause
 	case rm_win: {
 		draw_set_halign(fa_center);
 		var _c = c_lime;
-		draw_text_transformed_colour(room_width / 2, room_height / 6, "YOU WON!", 3, 3, 0, _c, _c, _c, _c, 1);
+		var _formatted_time_survived = format_time_survived(_time_survived)
+		draw_text_transformed_colour(room_width / 2, room_height / 7, "YOU WON!", 3, 3, 0, _c, _c, _c, _c, 1);
+		draw_text(room_width / 2, room_height / 5, $"FINAL SCORE: {score}" +
+		$"\nENEMIES KILLED: {global._enemies_killed}" + 
+		$"\nPOWER UPS COLLECTED: {global._powerup_total}" +
+		$"\nTIME SURVIVED: {_formatted_time_survived}");
 		draw_text(room_width / 2, room_height / 3, ">> PRESS ENTER TO RESTART <<");
 		draw_set_halign(fa_left);
 		break;
@@ -75,8 +80,12 @@ P: pause/unpause
 	case rm_gameover: {
 		draw_set_halign(fa_center);
 		var _c = c_red;
+		var _formatted_time_survived = format_time_survived(_time_survived)
 		draw_text_transformed_colour(room_width / 2, room_height / 7, "GAME OVER", 3, 3, 0, _c, _c, _c, _c, 1);
-		draw_text(room_width / 2, room_height / 5, "FINAL SCORE: " + string(score));
+		draw_text(room_width / 2, room_height / 5, $"FINAL SCORE: {score}" +
+		$"\nENEMIES KILLED: {global._enemies_killed}" + 
+		$"\nPOWER UPS COLLECTED: {global._powerup_total}" +
+		$"\nTIME SURVIVED: {_formatted_time_survived}");
 		draw_text(room_width / 2, room_height / 3, ">> PRESS ENTER TO RESTART <<");
 		draw_set_halign(fa_left);
 		break;

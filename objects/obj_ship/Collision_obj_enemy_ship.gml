@@ -21,8 +21,8 @@ with(other) {
 
 audio_play_sound(snd_die, 1, false);
 
-if(_shields > 0) {
-	_shields--;
+if(shields > 0) {
+	shields--;
 	immortal = 1;
 	sprite_index = spr_ship_protection;
 	alarm[1] = 2 * room_speed;

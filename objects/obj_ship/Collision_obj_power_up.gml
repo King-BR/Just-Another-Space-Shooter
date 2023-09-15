@@ -1,10 +1,12 @@
+global._powerup_total++;
+
 switch(other.sprite_index) {
 	case spr_power_live: {
 		lives++;
 		break;
 	}
 	case spr_power_shield: {
-		_shields++;
+		shields++;
 		break;
 	}
 	default:
@@ -15,10 +17,14 @@ switch(other.sprite_index) {
 				break;
 			}
 			case 2: {
-				_shields++;
+				shields++;
+				sprite_index = spr_ship_shield;
 				break;
 			}
-			default: _shields++;
+			default: {
+				shields++;
+				sprite_index = spr_ship_shield;
+			}
 		}
 	}
 }
